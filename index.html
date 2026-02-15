@@ -3,86 +3,352 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YUNUS EMRE ORTAOKULU ÇALIŞMA NOTLARI</title>
+    <title>Peygamberimizin Mekke Yılları</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Lateef&family=Nunito:wght@300;600;800&display=swap" rel="stylesheet">
+
     <style>
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f3f4f6;
+            font-family: 'Nunito', sans-serif;
+            background-color: #0f172a;
+            color: #f1f5f9;
+            overflow: hidden;
         }
-        .main-card {
-            background-color: white;
-            border-radius: 1.5rem;
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-            transition: transform 0.3s ease;
+        h1, h2, h3 { font-family: 'Cinzel', serif; letter-spacing: 1px; }
+        .arabic { font-family: 'Lateef', serif; font-size: 1.5rem; }
+
+        /* SLAYT YAPISI */
+        .slide {
+            display: none !important;
+            opacity: 0;
+            transition: opacity 0.8s ease-in-out;
+            position: absolute;
+            inset: 0;
+            padding-left: 20rem; /* Menü payı */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
         }
-        .main-card:hover {
-            transform: translateY(-5px);
+        .slide.active {
+            display: flex !important;
+            opacity: 1;
+            z-index: 10;
         }
-        .unit-link {
-            display: block;
-            padding: 1rem;
-            border-radius: 0.75rem;
+
+        /* YAN MENÜ */
+        .sidebar {
+            width: 18rem;
+            position: fixed;
+            left: 0;
+            top: 0;
+            height: 100%;
+            background: linear-gradient(to bottom, #1e293b, #0f172a);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            z-index: 50;
+            padding: 2rem 1rem;
+            box-shadow: 10px 0 30px rgba(0,0,0,0.5);
+        }
+        
+        .menu-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: #94a3b8;
             font-weight: 600;
-            transition: background-color 0.3s ease, color 0.3s ease;
-            text-align: center;
+            display: flex;
+            align-items: center;
+            gap: 10px;
         }
-        .grade-6-link {
-            background-color: #e0f2fe;
-            color: #0c4a6e;
+        .menu-item:hover { background: rgba(255,255,255,0.05); color: white; transform: translateX(5px); }
+        .menu-item.active { background: #d97706; color: white; box-shadow: 0 4px 15px rgba(217, 119, 6, 0.4); }
+
+        /* CAM KARTLAR */
+        .glass-panel {
+            width: 90%;
+            height: 90%;
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            border-radius: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 3rem;
+            position: relative;
         }
-        .grade-6-link:hover {
-            background-color: #0ea5e9;
-            color: white;
-        }
-        .grade-7-link {
-            background-color: #ede9fe;
-            color: #5b21b6;
-        }
-        .grade-7-link:hover {
-            background-color: #7c3aed;
-            color: white;
+
+        /* ANİMASYONLAR */
+        .fade-up { animation: fadeUp 0.8s forwards; opacity: 0; transform: translateY(30px); }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
+
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+        /* ARKA PLAN - ÇÖL GECESİ */
+        .bg-desert {
+            background: radial-gradient(circle at 50% 100%, #331c08 0%, #0f172a 60%, #000000 100%);
         }
     </style>
 </head>
-<body class="p-6 md:p-10">
-    <div class="container mx-auto max-w-6xl">
-        <header class="text-center mb-10 md:mb-16">
-            <h1 class="text-4xl md:text-6xl font-bold text-gray-800">Din Kültürü ve Ahlak Bilgisi</h1>
-            <p class="text-xl md:text-2xl text-gray-600 mt-3">İnfografik Ders Notları Portalı</p>
-        </header>
+<body class="h-screen w-screen relative bg-desert">
 
-        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12">
-            <!-- 6. Sınıf Kartı -->
-            <div class="main-card p-6 md:p-8">
-                <h2 class="text-3xl font-bold text-sky-700 mb-6 border-b-2 border-sky-200 pb-3">6. Sınıf Üniteleri</h2>
-                <div class="space-y-4">
-                    <a href="611.html" class="unit-link grade-6-link">Ünite 1: Peygamber ve İlahi Kitap İnancı</a>
-                    <a href="612.html" class="unit-link grade-6-link">Ünite 2: Ramazan ve Oruç</a>
-                    <a href="613.html" class="unit-link grade-6-link">Ünite 3: Ahlaki Davranışlar</a>
-                    <a href="614.html" class="unit-link grade-6-link">Ünite 4: Peygamberliğinden Önce Hz. Muhammed</a>
-                    <a href="615.html" class="unit-link grade-6-link">Ünite 5: Kültürümüzdeki Dinî Motifler</a>
-                </div>
-            </div>
+    <!-- Yıldızlar -->
+    <div class="absolute inset-0 opacity-30" style="background-image: url('https://www.transparenttextures.com/patterns/stardust.png');"></div>
 
-            <!-- 7. Sınıf Kartı -->
-            <div class="main-card p-6 md:p-8">
-                <h2 class="text-3xl font-bold text-violet-700 mb-6 border-b-2 border-violet-200 pb-3">7. Sınıf Üniteleri</h2>
-                <div class="space-y-4">
-                    <a href="711.html" class="unit-link grade-7-link">Ünite 1: Melek ve Ahiret İnancı</a>
-                    <a href="712.html" class="unit-link grade-7-link">Ünite 2: Hac ve Kurban</a>
-                    <a href="713.html" class="unit-link grade-7-link">Ünite 3: Ahlaki Davranışlar</a>
-                    <a href="714.html" class="unit-link grade-7-link">Ünite 4: Allah'ın Kulu ve Elçisi Hz. Muhammed</a>
-                    <a href="715.html" class="unit-link grade-7-link">Ünite 5: İslam Düşüncesinde Yorumlar</a>
-                </div>
-            </div>
-        </main>
+    <!-- SOL MENÜ -->
+    <div class="sidebar">
+        <div class="text-center mb-10 pb-6 border-b border-gray-700">
+            <i class="fas fa-moon text-5xl text-amber-500 mb-4"></i>
+            <h1 class="text-xl font-bold text-white">MEKKE YILLARI</h1>
+            <p class="text-xs text-gray-400 mt-1">610 - 622</p>
+        </div>
+        
+        <div onclick="goToSlide(0)" class="menu-item active" id="btn-0"><i class="fas fa-book-open"></i> İlk Vahiy</div>
+        <div onclick="goToSlide(1)" class="menu-item" id="btn-1"><i class="fas fa-bullhorn"></i> Davet Dönemi</div>
+        <div onclick="goToSlide(2)" class="menu-item" id="btn-2"><i class="fas fa-fist-raised"></i> Baskı ve İlk Hicret</div>
+        <div onclick="goToSlide(3)" class="menu-item" id="btn-3"><i class="fas fa-heart-broken"></i> Hüzün Yılı & Taif</div>
+        <div onclick="goToSlide(4)" class="menu-item" id="btn-4"><i class="fas fa-star"></i> İsra ve Miraç</div>
+        <div onclick="goToSlide(5)" class="menu-item" id="btn-5"><i class="fas fa-handshake"></i> Akabe Biatları</div>
+        <div onclick="goToSlide(6)" class="menu-item" id="btn-6"><i class="fas fa-route"></i> Kutsal Göç: Hicret</div>
     </div>
+
+    <!-- SLAYT 0: İLK VAHİY -->
+    <div class="slide active">
+        <div class="glass-panel text-center fade-up border-t-8 border-amber-500">
+            <h1 class="text-6xl font-bold mb-4 text-amber-400">İLK VAHİY: OKU!</h1>
+            <p class="text-xl text-gray-400 mb-8 font-mono">27 Ramazan 610 - Nur Dağı / Hira Mağarası</p>
+            
+            <div class="flex gap-12 w-full max-w-6xl items-center">
+                <div class="w-1/2 text-left space-y-6">
+                    <div class="bg-white/5 p-6 rounded-xl border-l-4 border-amber-500">
+                        <h3 class="text-xl font-bold text-white mb-2">Cebrail (as) Geliyor</h3>
+                        <p class="text-gray-300">"Oku!" dedi. Peygamberimiz "Ben okuma bilmem" dedi. Üç kez sıkıp bıraktıktan sonra Alak Suresi'nin ilk 5 ayetini indirdi.</p>
+                    </div>
+                    <div class="bg-white/5 p-6 rounded-xl border-l-4 border-blue-500">
+                        <h3 class="text-xl font-bold text-white mb-2">İlk Destekçiler</h3>
+                        <p class="text-gray-300">Korkuyla eve dönen Peygamberimizi eşi <strong>Hz. Hatice</strong> teselli etti. Bilge kuzeni <strong>Varaka b. Nevfel</strong> ise gelenin Cebrail olduğunu müjdeledi.</p>
+                    </div>
+                </div>
+                <div class="w-1/2 flex justify-center">
+                    <div class="w-64 h-64 bg-amber-500/10 rounded-full flex items-center justify-center border-4 border-amber-500/30 shadow-[0_0_50px_rgba(245,158,11,0.2)]">
+                        <i class="fas fa-mountain text-8xl text-amber-500"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLAYT 1: DAVET DÖNEMİ -->
+    <div class="slide">
+        <div class="glass-panel fade-up">
+            <h2 class="text-5xl font-bold mb-10 text-white">İslam'a Davet Başlıyor</h2>
+            
+            <div class="grid grid-cols-2 gap-8 w-full max-w-6xl">
+                <!-- Gizli Davet -->
+                <div class="bg-indigo-900/40 p-8 rounded-3xl border border-indigo-500/30">
+                    <h3 class="text-3xl font-bold text-indigo-300 mb-4"><i class="fas fa-user-secret mr-2"></i>Gizli Davet (3 Yıl)</h3>
+                    <ul class="space-y-3 text-lg text-gray-300">
+                        <li>• İlk Müslümanlar: Hz. Hatice, Hz. Ali, Hz. Zeyd, Hz. Ebu Bekir.</li>
+                        <li>• <strong>Dârülerkam:</strong> Erkam'ın evi, ilk eğitim merkezi ve sığınaktı.</li>
+                        <li>• Akrabalar ve güvenilir dostlar davet edildi.</li>
+                    </ul>
+                </div>
+
+                <!-- Açık Davet -->
+                <div class="bg-emerald-900/40 p-8 rounded-3xl border border-emerald-500/30">
+                    <h3 class="text-3xl font-bold text-emerald-300 mb-4"><i class="fas fa-bullhorn mr-2"></i>Açık Davet</h3>
+                    <ul class="space-y-3 text-lg text-gray-300">
+                        <li>• "Sana emrolunanı açıkça söyle!" ayetiyle başladı.</li>
+                        <li>• Safa Tepesi'nde tüm Mekke halkı uyarıldı.</li>
+                        <li>• Ebu Leheb gibi müşrikler düşmanlıklarını açıkça gösterdi (Tebbet Suresi).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLAYT 2: BASKI VE HABEŞİSTAN -->
+    <div class="slide">
+        <div class="glass-panel fade-up">
+            <h2 class="text-5xl font-bold mb-8 text-red-200">Zorluklar ve İlk Hicret</h2>
+            <div class="flex flex-col gap-6 w-full max-w-5xl">
+                
+                <div class="bg-red-500/10 p-6 rounded-2xl border-l-8 border-red-500 flex items-center gap-6">
+                    <i class="fas fa-fire text-4xl text-red-500"></i>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">İşkence ve Şehadet</h3>
+                        <p class="text-gray-300">Bilal-i Habeşi, Ammar ve ailesi ağır işkenceler gördü. <strong>Hz. Sümeyye ve Hz. Yasir</strong> İslam'ın ilk şehitleri oldular.</p>
+                    </div>
+                </div>
+
+                <div class="bg-blue-500/10 p-6 rounded-2xl border-l-8 border-blue-500 flex items-center gap-6">
+                    <i class="fas fa-ship text-4xl text-blue-500"></i>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">Habeşistan'a Hicret (615)</h3>
+                        <p class="text-gray-300">Baskılar artınca bir grup Müslüman Habeşistan'a gitti. Kral Necaşi, <strong>Cafer b. Ebu Talib'in</strong> okuduğu Meryem suresinden etkilenerek onları korudu.</p>
+                    </div>
+                </div>
+
+                <div class="bg-gray-500/10 p-6 rounded-2xl border-l-8 border-gray-500 flex items-center gap-6">
+                    <i class="fas fa-ban text-4xl text-gray-400"></i>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white">Boykot Yılları (3 Yıl)</h3>
+                        <p class="text-gray-300">Müşrikler Haşimoğulları ile her türlü ilişkiyi kesti. Müslümanlar açlıkla imtihan edildi, ağaç yaprakları yediler.</p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- SLAYT 3: HÜZÜN VE TAİF -->
+    <div class="slide">
+        <div class="glass-panel fade-up">
+            <h2 class="text-5xl font-bold mb-12 text-white">Hüzün Yılı ve Taif</h2>
+            
+            <div class="grid grid-cols-2 gap-12 w-full max-w-6xl">
+                <div class="text-center group">
+                    <div class="w-32 h-32 bg-gray-700/50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition">
+                        <i class="fas fa-sad-tear text-5xl text-gray-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-200">Hüzün Yılı</h3>
+                    <p class="text-gray-400 mt-2">Peygamberimiz, en büyük destekçisi eşi <strong>Hz. Hatice</strong>'yi ve kendisini koruyan amcası <strong>Ebu Talib</strong>'i peş peşe kaybetti.</p>
+                </div>
+
+                <div class="text-center group">
+                    <div class="w-32 h-32 bg-red-700/50 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:scale-110 transition">
+                        <i class="fas fa-road text-5xl text-red-400"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-200">Taif Yolculuğu</h3>
+                    <p class="text-gray-400 mt-2">Destek bulmak için gittiği Taif'te taşlandı. Ancak O, helak olmaları için değil, hidayetleri için dua etti. Köle <strong>Addas</strong> Müslüman oldu.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLAYT 4: İSRA VE MİRAÇ -->
+    <div class="slide">
+        <div class="glass-panel fade-up border-t-8 border-purple-500">
+            <h2 class="text-5xl font-bold mb-8 text-purple-200">İlahi Teselli: İsra ve Miraç</h2>
+            <div class="bg-purple-900/20 p-8 rounded-3xl w-full max-w-5xl text-center">
+                <div class="flex justify-center items-center gap-8 text-2xl font-bold text-white mb-8">
+                    <span>Mescid-i Haram (Mekke)</span>
+                    <i class="fas fa-arrow-right text-purple-500"></i>
+                    <span>Mescid-i Aksa (Kudüs)</span>
+                    <i class="fas fa-arrow-up text-purple-500"></i>
+                    <span>Gökyüzü (Miraç)</span>
+                </div>
+                
+                <div class="grid grid-cols-3 gap-6 text-left">
+                    <div class="bg-black/30 p-4 rounded-xl">
+                        <span class="text-purple-400 font-bold block mb-2">Hediye 1</span>
+                        Beş vakit namaz farz kılındı.
+                    </div>
+                    <div class="bg-black/30 p-4 rounded-xl">
+                        <span class="text-purple-400 font-bold block mb-2">Hediye 2</span>
+                        Bakara Suresi'nin son iki ayeti (Amenerrasulü).
+                    </div>
+                    <div class="bg-black/30 p-4 rounded-xl">
+                        <span class="text-purple-400 font-bold block mb-2">Hediye 3</span>
+                        Şirk koşmayanların cennete gireceği müjdesi.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLAYT 5: AKABE BİATLARI -->
+    <div class="slide">
+        <div class="glass-panel fade-up">
+            <h2 class="text-5xl font-bold mb-10 text-teal-200">Yesrib'den Gelen Işık</h2>
+            <div class="flex gap-8 w-full max-w-6xl">
+                <div class="flex-1 bg-teal-900/30 p-8 rounded-2xl border border-teal-500/30">
+                    <div class="text-4xl font-bold text-teal-500 mb-4">1. Akabe Biatı</div>
+                    <p class="text-gray-300 mb-4">12 Medineli Müslüman söz verdi. <strong>Musab b. Umeyr</strong> onlarla giderek Medine'de öğretmenlik yaptı ve şehri İslam'a hazırladı.</p>
+                </div>
+                <div class="flex-1 bg-teal-900/30 p-8 rounded-2xl border border-teal-500/30">
+                    <div class="text-4xl font-bold text-teal-500 mb-4">2. Akabe Biatı</div>
+                    <p class="text-gray-300 mb-4">75 kişilik grup geldi. Peygamberimizi canları gibi koruyacaklarına söz verdiler ve O'nu Medine'ye davet ettiler. Hicretin kapısı aralandı.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLAYT 6: HİCRET -->
+    <div class="slide">
+        <div class="glass-panel fade-up border-b-8 border-green-500">
+            <h2 class="text-5xl font-bold mb-8 text-green-200">Kutsal Göç: Hicret (622)</h2>
+            <div class="grid grid-cols-2 gap-8 w-full max-w-6xl">
+                <div class="space-y-4">
+                    <div class="flex items-center gap-4 bg-white/5 p-4 rounded-xl">
+                        <span class="bg-green-600 px-3 py-1 rounded font-bold">Plan</span>
+                        <p>Hz. Ali yatağa yattı, emanetleri teslim etmek için kaldı. Hz. Ebu Bekir yol arkadaşı oldu.</p>
+                    </div>
+                    <div class="flex items-center gap-4 bg-white/5 p-4 rounded-xl">
+                        <span class="bg-green-600 px-3 py-1 rounded font-bold">Mağara</span>
+                        <p>Sevr Mağarası'nda 3 gün gizlendiler. Örümcek ağı ve güvercin yuvası onları gizledi.</p>
+                    </div>
+                    <div class="flex items-center gap-4 bg-white/5 p-4 rounded-xl">
+                        <span class="bg-green-600 px-3 py-1 rounded font-bold">Kuba</span>
+                        <p>Medine yakınlarında ilk mescit inşa edildi.</p>
+                    </div>
+                </div>
+                
+                <div class="flex flex-col justify-center items-center bg-black/30 p-8 rounded-2xl text-center">
+                    <h3 class="text-2xl font-bold text-green-400 mb-4">Ensar ve Muhacir</h3>
+                    <p class="text-lg text-gray-300">
+                        Mekke'den göç edenlere <strong>MUHACİR</strong>,<br>
+                        Onları karşılayıp yardım eden Medinelilere <strong>ENSAR</strong> denildi.
+                    </p>
+                    <div class="mt-6 text-sm text-gray-400">Suheyb b. Sinan (ra) gibi sahabiler tüm malını bırakıp sadece imanlarıyla hicret ettiler.</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const menuItems = document.querySelectorAll('.menu-item');
+
+        function updateSlide() {
+            slides.forEach((s, i) => {
+                s.classList.remove('active');
+                if(i === currentSlide) {
+                    s.classList.add('active');
+                    const anims = s.querySelectorAll('.fade-up');
+                    anims.forEach(el => {
+                        el.style.animation = 'none';
+                        el.offsetHeight; 
+                        el.style.animation = null; 
+                    });
+                }
+            });
+            menuItems.forEach((m, i) => {
+                if(i === currentSlide) m.classList.add('active');
+                else m.classList.remove('active');
+            });
+        }
+
+        function goToSlide(n) { currentSlide = n; updateSlide(); }
+        function changeSlide(n) {
+            let next = currentSlide + n;
+            if(next >= 0 && next < slides.length) { currentSlide = next; updateSlide(); }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if(e.key === 'ArrowRight' || e.key === ' ') changeSlide(1);
+            if(e.key === 'ArrowLeft') changeSlide(-1);
+        });
+
+        updateSlide();
+    </script>
 </body>
 </html>
-
-
-

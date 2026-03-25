@@ -3,376 +3,710 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>4. Sınıf Dev Deneme Sınavı</title>
+    <title>İnteraktif Eğitim Portalı - Din Kültürü ve Ahlak Bilgisi</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap');
-        body { font-family: 'Nunito', sans-serif; background-color: #f8fafc; }
-        .fade-in { animation: fadeIn 0.4s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .glass-panel { background: rgba(255, 255, 255, 0.95); backdrop-filter: blur(10px); }
-        .option-btn { transition: all 0.2s ease; }
-        .option-btn:hover:not(.selected) { transform: translateY(-2px); box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); }
-        .option-btn.selected { border-color: #3b82f6; background-color: #eff6ff; transform: scale(1.02); box-shadow: 0 0 0 2px #3b82f6; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .animate-fadeIn { animation: fadeIn 0.4s ease-out forwards; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f5f9; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
     </style>
 </head>
-<body class="min-h-screen text-slate-800 flex items-center justify-center p-4">
+<body class="min-h-screen bg-slate-100 flex flex-col font-sans overflow-hidden">
 
-    <!-- Container -->
-    <div class="w-full max-w-3xl glass-panel rounded-3xl shadow-2xl overflow-hidden border border-slate-200">
-        
-        <!-- Header Dynamic Color Banner -->
-        <div id="header-banner" class="h-4 w-full bg-gradient-to-r from-blue-400 to-indigo-500 transition-colors duration-500"></div>
-
-        <div class="p-6 sm:p-10">
-            <!-- Start Screen -->
-            <div id="start-screen" class="text-center fade-in">
-                <div class="text-6xl mb-4">🎓</div>
-                <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-800 mb-4">4. Sınıf Dev Deneme Sınavı</h1>
-                <p class="text-slate-600 mb-8 text-lg">Toplam 120 soru seni bekliyor. Sorular özenle hazırlandı, dikkatli oku ve en doğru cevabı bul!</p>
-                
-                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-8 text-sm font-semibold">
-                    <div class="bg-rose-100 text-rose-700 py-3 rounded-xl">Türkçe (25 Soru)</div>
-                    <div class="bg-blue-100 text-blue-700 py-3 rounded-xl">Matematik (25 Soru)</div>
-                    <div class="bg-emerald-100 text-emerald-700 py-3 rounded-xl">Fen Bilimleri (25 Soru)</div>
-                    <div class="bg-orange-100 text-orange-700 py-3 rounded-xl">Sosyal Bilgiler (15 Soru)</div>
-                    <div class="bg-purple-100 text-purple-700 py-3 rounded-xl">İngilizce (15 Soru)</div>
-                    <div class="bg-teal-100 text-teal-700 py-3 rounded-xl">Din Kültürü (15 Soru)</div>
-                </div>
-
-                <button onclick="startQuiz()" class="bg-gradient-to-r from-blue-600 to-indigo-600 text-white text-xl font-bold py-4 px-12 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-all">
-                    Sınava Başla 🚀
-                </button>
-            </div>
-
-            <!-- Quiz Screen -->
-            <div id="quiz-screen" class="hidden fade-in">
-                <!-- Progress and Subject Info -->
-                <div class="flex justify-between items-start mb-6">
-                    <div>
-                        <span id="subject-badge" class="px-4 py-1.5 rounded-full text-sm font-bold text-white shadow-sm transition-colors duration-300">Ders</span>
-                        <div class="mt-3 text-sm text-slate-500 font-semibold">Soru <span id="current-q-num" class="text-lg text-slate-800">1</span> / 120</div>
-                    </div>
-                    <div class="w-1/2 flex flex-col items-end">
-                        <button onclick="quitQuiz()" class="text-sm font-bold text-slate-400 hover:text-rose-500 transition-colors mb-2 flex items-center gap-1">
-                            <span>Çıkış Yap</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                        <div class="w-full bg-slate-200 rounded-full h-2.5">
-                            <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Question Text -->
-                <div class="min-h-[120px] mb-8">
-                    <h2 id="question-text" class="text-xl sm:text-2xl font-bold leading-relaxed text-slate-700"></h2>
-                </div>
-
-                <!-- Options -->
-                <div id="options-container" class="space-y-3 mb-8">
-                    <!-- Options injected here -->
-                </div>
-
-                <!-- Navigation -->
-                <div class="flex justify-between items-center pt-4 border-t border-slate-100">
-                    <button id="prev-btn" onclick="prevQuestion()" class="px-6 py-2.5 rounded-xl font-bold text-slate-500 hover:bg-slate-100 transition-colors hidden">
-                        &larr; Önceki
-                    </button>
-                    <div class="flex-grow"></div>
-                    <button id="next-btn" onclick="nextQuestion()" class="px-8 py-3 rounded-xl font-bold text-white bg-slate-800 hover:bg-slate-700 shadow-md transition-all">
-                        Sonraki &rarr;
-                    </button>
-                </div>
-            </div>
-
-            <!-- Result Screen -->
-            <div id="result-screen" class="hidden text-center fade-in">
-                <div class="text-6xl mb-4">🏆</div>
-                <h2 class="text-3xl font-extrabold text-slate-800 mb-2">Sınav Tamamlandı!</h2>
-                <p class="text-slate-600 mb-8 text-lg">Cevaplarını sisteme kaydettik. Doğru cevaplarını kontrol etmek için ayrıca verilen cevap anahtarına bakabilirsin.</p>
-                
-                <div class="bg-blue-50 border border-blue-200 rounded-2xl p-6 mb-8 inline-block">
-                    <div class="text-blue-800 font-bold text-xl mb-2">İşaretlenen Soru Sayısı</div>
-                    <div class="text-5xl font-black text-blue-600" id="answered-count">0 / 120</div>
-                </div>
-
-                <div class="mt-4">
-                    <button onclick="location.reload()" class="bg-slate-800 text-white font-bold py-3 px-8 rounded-full shadow hover:bg-slate-700 transition-colors">
-                        Sınavı Yeniden Başlat
-                    </button>
-                </div>
-            </div>
-        </div>
-    </div>
+    <!-- DİNAMİK İÇERİK ALANI -->
+    <div id="app-root" class="flex flex-col h-screen w-full"></div>
 
     <script>
-        // Data format: [Subject, QuestionText, [OptA, OptB, OptC, OptD], CorrectIndex]
-        const quizData = [
-            // TÜRKÇE (1-25)
-            ["Türkçe", "Ayşe, yaz tatilinde ninesinin yaşadığı ve şehre çok 'uzak' olan o güzel köye gitmek için yola çıktı. Bu cümlede tırnak içinde verilen kelimenin eş anlamlısı aşağıdakilerden hangisidir?", ["Irak", "Yakın", "Dar", "Geniş"], 0],
-            ["Türkçe", "Gece yağan kar tüm sokağı kaplamıştı. Sabah uyandığımızda her yerin bembeyaz olduğunu gördük. Bu cümledeki 'beyaz' kelimesinin zıt anlamlısı olan kelime hangisidir?", ["Kara", "Siyah", "Kırmızı", "Mavi"], 1],
-            ["Türkçe", "Manavdan elma, armut, muz ve çilek aldık. Bu cümlede eş görevli sözcükleri (meyve isimlerini) birbirinden ayırmak için hangi noktalama işareti kullanılmıştır?", ["Nokta", "Soru İşareti", "Virgül", "Ünlem"], 2],
-            ["Türkçe", "Bağlaç olan 'de/da' kelimeden ayrı yazılırken, bulunma eki olan '-de/-da' kelimeye bitişik yazılır. Buna göre aşağıdaki cümlelerin hangisinde bir yazım yanlışı yapılmıştır?", ["Evde bütün gün kitap okudum.", "Ali de bizimle sinemaya geldi.", "Masada duran kalemi bana verir misin?", "Pikniğe gelirken bizimle sen de gel."], 3],
-            ["Türkçe", "İçinde soru anlamı taşıyan, karşımızdakinden bir cevap beklediğimiz cümlelerin sonuna konulan noktalama işareti aşağıdakilerden hangisidir?", ["Soru İşareti", "Nokta", "Ünlem", "Kesme İşareti"], 0],
-            ["Türkçe", "'Gül' kelimesi sesteş (eş sesli) bir kelimedir. Hem bir çiçek türü hem de tebessüm etmek anlamlarına gelir. Buna göre hangi cümlede 'gül' kelimesi bir bitki türü olarak kullanılmıştır?", ["Anlattığım fıkraya herkes çok güldü.", "Bahçemizdeki kırmızı güller sonunda açmış.", "Yüzünden gülümseme hiç eksik olmasın.", "Bana bakıp öylece güldü."], 1],
-            ["Türkçe", "Dünya üzerinde sadece bir tane olan, eşi ve benzeri bulunmayan varlıklara özel isim denir. Buna göre aşağıdakilerden hangisi bir özel isimdir?", ["Kitap", "Masa", "Ankara", "Kalem"], 2],
-            ["Türkçe", "Otobüse bindiğimizde ayakta durmakta zorlanan 'yaşlı' bir amcaya hemen yer verdim. Bu cümlede altı çizili kelimenin yerine hangisi getirilirse cümlenin anlamı değişmez?", ["Genç", "Çocuk", "Bebek", "İhtiyar"], 3],
-            ["Türkçe", "Bazı kelimeler ünlü harfle başlayan bir ek aldıklarında ikinci hecelerindeki dar ünlü düşer. Buna göre aşağıdaki kelimelerin hangisinde hece düşmesi olayı gerçekleşmiştir?", ["Aklım (Akıl - ım)", "Gözüm", "Kelim", "Kitabım"], 0],
-            ["Türkçe", "Özel isimlere getirilen çekim eklerini ayırmak için kullandığımız ve kelimenin sağ üst köşesine koyduğumuz noktalama işareti hangisidir?", ["Virgül", "Kesme İşareti", "Kısa Çizgi", "Tırnak İşareti"], 1],
-            ["Türkçe", "'Evvel zaman içinde, kalbur saman içinde...' gibi ifadelerle başlayan, genellikle olağanüstü olayları ve kahramanları anlatan edebi türün başlangıç bölümüne ne ad verilir?", ["Şiir", "Haber", "Tekerleme", "Mektup"], 2],
-            ["Türkçe", "Kelimelerin sözlükteki ilk anlamından tamamen uzaklaşarak kazandıkları yeni anlama mecaz anlam denir. Buna göre 'acı' kelimesi hangi cümlede mecaz anlamda kullanılmıştır?", ["Yediğim biber beklediğimden çok daha acıydı.", "Annemin yaptığı yemek biraz acı olmuş.", "İçtiğim kahve şekersiz olduğu için acı geldi.", "Dün akşam aldığımız acı haber hepimizi derinden üzdü."], 3],
-            ["Türkçe", "İnsanların iç dünyalarında yaşadıkları sevinç, hüzün, şaşkınlık gibi durumlara duygu denir. Aşağıdakilerden hangisi bir duyguyu ifade etmektedir?", ["Korku", "Masa", "Koşmak", "Sarı"], 0],
-            ["Türkçe", "Duygu ve düşüncelerini, genellikle ölçülü ve kafiyeli dizeler (mısralar) halinde yazarak anlatan sanatçılara ne ad verilir?", ["Yazar", "Şair", "Ressam", "Tiyatrocu"], 1],
-            ["Türkçe", "Dilimizdeki sesleri gösteren işaretlerin tümüne alfabe diyoruz. Türk alfabesinde a'dan z'ye kadar toplam kaç adet harf bulunmaktadır?", ["28", "21", "29", "8"], 2],
-            ["Türkçe", "Kelimelerin anlamlı en küçük parçasına kök denir. Buna göre 'gözlükçü' kelimesinin kökü aşağıdakilerden hangisidir?", ["Gözlük", "Gözcü", "Lük", "Göz"], 3],
-            ["Türkçe", "Varlıkları ve kavramları karşılayan kelimelere isim, iş ve oluş bildiren kelimelere ise fiil (eylem) denir. Buna göre aşağıdakilerden hangisi bir isim değildir?", ["Uyumak", "Ağaç", "Kitap", "Su"], 0],
-            ["Türkçe", "Şiirleri oluşturan ve alt alta sıralanan anlamlı her bir satıra edebiyatta hangi isim verilmektedir?", ["Kıta", "Dize (Mısra)", "Paragraf", "Cümle"], 1],
-            ["Türkçe", "Keloğlan masallarında, Keloğlan ve annesinin çok 'fakir' olduğu anlatılır. Bu cümlede geçen fakir kelimesinin eş anlamlısı nedir?", ["Zengin", "Cimri", "Yoksul", "Cesur"], 2],
-            ["Türkçe", "Yazı yazarken defterimizin satır sonuna geldiğimizde, kelime sığmıyorsa onu hecelerinden bölerek ayırmamız gerekir. Bu ayırma işlemi için hangi işaret kullanılır?", ["Virgül", "Nokta", "Uzun Çizgi", "Kısa Çizgi"], 3],
-            ["Türkçe", "Bir metni veya hikayeyi okuduğumuzda, yazarın bize asıl anlatmak istediği mesaja, çıkarmamız gereken derse ne ad verilir?", ["Ana fikir", "Son kelime", "Sadece başlık", "Giriş bölümü"], 0],
-            ["Türkçe", "Tavşan ile kaplumbağanın masalında, tavşanın çok 'hızlı' ancak kaplumbağanın onun tam zıttı özellikte olduğu anlatılır. Hızlı kelimesinin zıt anlamlısı nedir?", ["Çabuk", "Yavaş", "Tez", "İleri"], 1],
-            ["Türkçe", "Atalarımızın uzun denemelere dayanarak söyledikleri, bize öğüt ve ders veren, kimin söylediği belli olmayan kalıplaşmış sözlere ('Tatlı dil yılanı deliğinden çıkarır' gibi) ne ad verilir?", ["Deyim", "Tekerleme", "Atasözü", "Masal"], 2],
-            ["Türkçe", "Alfabemizde ağzımızdan tek bir hareketle kolayca çıkabilen a, e, ı, i, o, ö, u, ü harflerine sesli (ünlü) harfler denir. Alfabemizde toplam kaç tane sesli harf vardır?", ["21", "29", "5", "8"], 3],
-            ["Türkçe", "Sonunda p, ç, t, k sert ünsüzleri bulunan kelimeler, ünlüyle başlayan bir ek aldıklarında yumuşayarak b, c, d, g/ğ harflerine dönüşürler. 'Ağaç' kelimesi hangi eki alırsa sonundaki harf yumuşar?", ["-a (Ağaca)", "-lar", "-dan", "-sız"], 0],
-
-            // MATEMATİK YENİ NESİL SORULAR (26-50)
-            ["Matematik", "Bir gizli ajan, kasanın şifresini bulmak için şu ipucunu alıyor: 'Binler basamağı 7, yüzler basamağı 0, onlar basamağı 4 ve birler basamağı 9 olan dört basamaklı sayı.' Kasanın şifresi aşağıdakilerden hangisidir?", ["7409", "7049", "7490", "7009"], 1],
-            ["Matematik", "Zeynep, katıldığı bir bilgisayar oyununda ilk turda 3450 puan, ikinci turda ise 1245 puan kazanmıştır. Toplam puanını zihinden tahmin etmek isteyen Zeynep, sayıları en yakın yüzlüğe yuvarlayarak topluyor. Zeynep'in tahmini sonucu kaçtır?", ["4600", "4700", "4800", "4500"], 1],
-            ["Matematik", "Okul kermesi için veliler toplam 45 tepsi börek hazırlamıştır. Her tepside 24 dilim börek bulunmaktadır. Gün sonunda bu böreklerin 850 dilimi satıldığına göre geriye satılmayan kaç dilim börek kalmıştır?", ["210", "220", "230", "240"], 2],
-            ["Matematik", "Bir meyve bahçesinde toplanan 1440 adet elma, her biri 15 adet elma alabilen özel hediye kutularına doldurulacaktır. Çiftçinin tüm elmaları paketleyebilmesi için en az kaç kutuya ihtiyacı vardır?", ["94", "95", "96", "98"], 2],
-            ["Matematik", "Ayşe, kendi yaptığı doğum günü pastasını 8 eş dilime ayırmıştır. Pastanın 3 dilimini misafirlere ikram etmiş, 2 dilimini ise kardeşi yemiştir. Geriye pastanın kaçta kaçı kalmıştır?", ["1/8", "2/8", "3/8", "4/8"], 2],
-            ["Matematik", "Bir bilgi yarışmasında büyük ödül sunucu tarafından 'Yüz yirmi bin kırk beş' lira olarak açıklanmıştır. Bu büyük ödül miktarının rakamlarla doğru yazılışı aşağıdakilerden hangisidir?", ["120450", "120045", "124500", "102045"], 1],
-            ["Matematik", "Bir kırtasiyeci, tanesini 12 TL'den satın aldığı 50 adet defterin 20 tanesini 15 TL'den, kalanlarını ise 18 TL'den satmıştır. Kırtasiyeci tüm defterlerin satışından toplam kaç TL kâr elde etmiştir?", ["200", "220", "240", "260"], 2],
-            ["Matematik", "Ahmet amca, tarlasının 2/7'sine domates, 3/7'sine ise biber ekmiştir. Tarlanın geriye kalan boş kısmına ise salatalık ekecektir. Salatalık ekilecek alan, tüm tarlanın kaçta kaçıdır?", ["1/7", "2/7", "3/7", "4/7"], 1],
-            ["Matematik", "Elif, 480 sayfalık kalın bir romanın yarısını günde 20 sayfa okuyarak, kalan diğer yarısını ise günde 30 sayfa okuyarak bitirmiştir. Elif bu romanın tamamını toplam kaç günde okumuştur?", ["18", "20", "22", "24"], 1],
-            ["Matematik", "Dört arkadaş aynı büyüklükte birer pizza sipariş etmiştir. Ali pizzasının 1/4'ünü, Veli 1/2'sini, Can 1/8'ini, Cem ise 1/3'ünü bitirebilmiştir. Buna göre en fazla pizza yiyen kimdir?", ["Ali", "Veli", "Can", "Cem"], 1],
-            ["Matematik", "Bir şifreli kilit mekanizmasında sayılar belirli bir kurala göre dizilmiştir: 12, 17, 22, ?, 32, 37. Kuralı bozmamak için soru işareti olan yere hangi sayı gelmelidir?", ["25", "26", "27", "28"], 2],
-            ["Matematik", "Bir doğa kulübündeki 145 öğrenci, her biri en fazla 16 kişi alabilen servis araçlarıyla orman kampına gidecektir. Hiçbir öğrencinin dışarıda kalmaması için en az kaç servis aracına ihtiyaç vardır?", ["8", "9", "10", "11"], 2],
-            ["Matematik", "Bir fırıncı, hazırladığı hamurları hesaplarken 17/4 (on yedi bölü dört) kesri ile karşılaşıyor. Fırıncının bu bileşik kesri, tam sayılı kesir olarak ifade etmesi gerekirse doğru sonuç ne olur?", ["3 tam 1/4", "4 tam 1/4", "4 tam 3/4", "5 tam 1/4"], 1],
-            ["Matematik", "Matematik öğretmeni tahtaya şu bilmeceyi yazıyor: 'İki doğal sayının toplamı 85, farkları ise 15'tir. Bu sayılardan büyük olanı kaçtır?' Sınıftaki öğrencilerin bulması gereken doğru cevap nedir?", ["45", "50", "55", "60"], 1],
-            ["Matematik", "Bir oyun kartındaki 6, 0, 4 ve 9 rakamlarını sadece birer kez kullanarak yazılabilecek dört basamaklı 'en büyük çift sayı' isteniyor. Kurallara uygun olan bu sayı aşağıdakilerden hangisidir?", ["9604", "9640", "9406", "9460"], 1],
-            ["Matematik", "Akıl oyunları kulübünde sorulan bir soruda: 'Hangi sayının 4 katının 15 eksiği 105 eder?' denilmektedir. İşlemleri tersinden düşünerek doğru cevabı bulan bir öğrenci hangi sayıyı bulmuştur?", ["20", "25", "30", "35"], 2],
-            ["Matematik", "Bir annenin yaşı, küçük kızının yaşının tam 4 katıdır. Anne ile kızının yaşları toplamı 40 olduğuna göre, anne bugün kaç yaşındadır?", ["28", "30", "32", "36"], 2],
-            ["Matematik", "Bir usta, boyayacağı duvarın 2/5'ini maviye boyamıştır. İş planında bu kesri genişleterek faydalanmak isteyen usta, paydası 20 olacak şekilde kesri yeniden yazarsa kesrin payı kaç olur?", ["4", "6", "8", "10"], 2],
-            ["Matematik", "Bir kitap dizgisinde çalışan bilgisayar operatörü, dizgisi yapılacak kitabın tam yarısını saatte 80 sayfa dizerek 3 saatte bitiriyor. Aynı hızla devam ederse dizgisi yapılan kitabın tamamı kaç sayfadır?", ["240", "360", "480", "500"], 2],
-            ["Matematik", "Tahtaya yazılan üç basamaklı 'üç farklı doğal sayının' toplamı 450'dir. Bu kurala uyan sayılardan en büyüğünün alabileceği en yüksek (maksimum) değer kaçtır?", ["248", "249", "250", "251"], 1],
-            ["Matematik", "Okul kantinindeki sıraya giren Ali, baştan sayıldığında 15. sırada, sondan sayıldığında ise 20. sırada yer almaktadır. Buna göre kantin sırasında bekleyen toplam kaç öğrenci vardır?", ["33", "34", "35", "36"], 1],
-            ["Matematik", "Kumbarasında sadece 5 TL'lik ve 10 TL'lik kağıt paralar bulunan Cem'in toplam 12 adet parası vardır. Kumbaradaki paraların toplam değeri 85 TL olduğuna göre, 5 TL'lik paraların sayısı kaçtır?", ["5", "6", "7", "8"], 2],
-            ["Matematik", "Bir oyuncak fabrikasında günde 2450 adet araba üretilmektedir. Üretilen bu arabalar 25'erli paketler halinde özel kolilere yerleştiriliyor. Fabrikanın 5 günlük üretimi sonucunda toplam kaç koli elde edilir?", ["480", "490", "500", "510"], 1],
-            ["Matematik", "Bir kutudaki kalemlerin 5/8'i kırmızıdır. Kutudan 12 adet kırmızı kalem alındığında, kalan kırmızı kalemler tüm kutunun yarısı (4/8'i) kadar kalıyor. Başlangıçta kutuda toplam kaç kalem vardır?", ["80", "84", "90", "96"], 3],
-            ["Matematik", "Büyük bir kütüphanede 48 adet kitaplık rafı ve her rafta ortalama 32 adet kitap bulunmaktadır. Kütüphaneci toplam kitap sayısını zihinden tahmin etmek için sayıları en yakın onluğa yuvarlayıp çarpıyor. Tahmini sonuç kaçtır?", ["1200", "1500", "1600", "2000"], 1],
-
-            // FEN BİLİMLERİ (51-75)
-            ["Fen Bilimleri", "Fen bilimleri dersinde öğretmenimiz, dünyamızın dış katmanını incelediğimizi söyledi. Dağları, tepeleri ve üzerinde yaşadığımız alanı oluşturan bu büyük, katı kütlelere ne ad verilir?", ["Toprak", "Su", "Kayaç", "Hava"], 2],
-            ["Fen Bilimleri", "Müzeye yapılan okul gezisinde, milyonlarca yıl önce yaşamış dinozorların taşlaşmış kemiklerini gördük. Geçmişte yaşamış canlıların taşlaşmış olan bu kalıntılarına ne ad verilir?", ["Maden", "Kömür", "Kaya", "Fosil"], 3],
-            ["Fen Bilimleri", "Dünyamız uzayda sürekli bir hareket halindedir. Dünyanın kendi ekseni etrafında durmaksızın dönmesi sonucunda günlük olarak hangi doğa olayı gerçekleşir?", ["Gece ve Gündüz", "Mevsimler", "Yıllar", "Aylar"], 0],
-            ["Fen Bilimleri", "Dünyamız kendi etrafında dönerken aynı zamanda uzayda Güneş'in etrafında da geniş bir yörüngede dolanır. Dünyanın Güneş etrafındaki bu tam turu ne kadar sürede tamamlanır?", ["1 Gün", "1 Yıl", "1 Ay", "1 Hafta"], 1],
-            ["Fen Bilimleri", "Koşmak, oyun oynamak ve ders çalışmak için vücudumuzun bolca enerjiye ihtiyacı vardır. Ekmek ve makarnada bolca bulunan, vücudumuza ana enerjiyi veren besin içeriği hangisidir?", ["Vitamin", "Su", "Karbonhidrat", "Mineral"], 2],
-            ["Fen Bilimleri", "Buzdolabının kapağındaki magnetler kapıya kolayca yapışır. Bunun sebebi içlerindeki mıknatısın bazı maddeleri çekmesidir. Mıknatıs, aşağıdaki maddelerden hangisini güçlü bir şekilde çeker?", ["Tahta", "Plastik", "Cam", "Demir"], 3],
-            ["Fen Bilimleri", "Mıknatısların kuzey (N) ve güney (S) olmak üzere iki farklı kutbu vardır. İki farklı mıknatısın birbirine zıt olan bu kutupları yan yana getirildiğinde aralarında nasıl bir kuvvet oluşur?", ["Çekme kuvveti", "İtme kuvveti", "Sürtünme", "Kaldırma"], 0],
-            ["Fen Bilimleri", "Maddeler doğada katı, sıvı ve gaz olmak üzere farklı hallerde bulunabilirler. Suyun buzdolabının dondurucu kısmında donarak buz haline gelmiş şekline ne ad verilir?", ["Sıvı", "Katı", "Gaz", "Buhar"], 1],
-            ["Fen Bilimleri", "Güneşli ve sıcak bir yaz gününde elimizdeki dondurmanın damlamaya başladığını görürüz. Katı bir maddenin dışarıdan ısı alarak sıvı hale geçmesi olayına fen bilimlerinde ne denir?", ["Donma", "Buharlaşma", "Erime", "Yoğuşma"], 2],
-            ["Fen Bilimleri", "İnsanlar binlerce yıl boyunca karanlık geceleri aydınlatmak için çeşitli yollar denemişlerdir. Geçmişten günümüze düşündüğümüzde insanların kullandığı en eski aydınlatma aracı hangisidir?", ["Ampul", "Mum", "Florasan", "Ateş (Meşale)"], 3],
-            ["Fen Bilimleri", "Şehirlerde çok fazla ve yanlış yöne bakan sokak lambaları yüzünden gökyüzündeki yıldızları göremez hale geldik. Işığın bu şekilde yanlış, yersiz ve gereksiz kullanılmasına ne ad verilir?", ["Işık kirliliği", "Ses kirliliği", "Çevre kirliliği", "Aydınlanma"], 0],
-            ["Fen Bilimleri", "Teknoloji geliştikçe sesleri daha uzağa duyurabilmek veya kaydedebilmek için yeni araçlar üretilmiştir. Aşağıdakilerden hangisi sesi daha geniş alanlara duyurmaya yarayan bir ses teknolojisi ürünüdür?", ["Lamba", "Megafon", "Gözlük", "Pusula"], 1],
-            ["Fen Bilimleri", "Okulda kurduğumuz basit bir elektrik devresinde ampulün ışık verebilmesi için bir enerji kaynağına ihtiyaç vardır. Basit elektrik devrelerinde bu elektrik enerjisini üreten kaynak hangisidir?", ["Ampul", "Anahtar", "Pil", "Kablo"], 2],
-            ["Fen Bilimleri", "Evlerimizde lambaları yakıp söndürürken kullandığımız düğmeler gibi, elektrik devresindeki enerjinin geçişini isteğimize göre kontrol etmemizi sağlayan devre elemanı hangisidir?", ["Pil", "Ampul", "Duy", "Anahtar"], 3],
-            ["Fen Bilimleri", "Ormandaki bir ağaç doğada bulunan bir maddedir; ancak marangoz o ağacı kesip biçerek bir masa yaptığında ona yeni bir şekil vermiş olur. Maddelerin bu şekilde işlenerek şekil almış haline ne denir?", ["Cisim", "Sıvı", "Gaz", "Kütle"], 0],
-            ["Fen Bilimleri", "Yağmurlu günlerde dışarı çıkarken kullandığımız şemsiyeler ve giydiğimiz yağmurluklar bizi ıslanmaktan korur. Suyun emilmesini ve geçişini engelleyen bu tarz maddelere ne ad verilir?", ["Suyu çeken", "Suyu çekmeyen", "Yüzen", "Batan"], 1],
-            ["Fen Bilimleri", "Yediğimiz besinler içeriklerine göre vücudumuzda farklı görevler üstlenirler. Makarna, pirinç ve ekmek gibi yiyeceklerde bolca bulunan karbonhidratların vücudumuzdaki asıl görevi nedir?", ["Hastalıktan korur", "Kemikleri güçlendirir", "Enerji verir", "Yaraları iyileştirir"], 2],
-            ["Fen Bilimleri", "Sağlıklı büyüyebilmemiz, kemiklerimizin ve dişlerimizin güçlü olması için bazı minerallere çok ihtiyacımız vardır. Özellikle süt ve süt ürünlerinde bolca bulunan ve kemiklerimizi güçlendiren mineral hangisidir?", ["Yağ", "Karbonhidrat", "Su", "Kalsiyum"], 3],
-            ["Fen Bilimleri", "Kullanıp attığımız plastik şişelerin, cam kavanozların veya kağıtların fabrikalarda işlem görerek yeniden kullanılabilecek yeni ürünlere dönüştürülmesi işlemine ne ad verilir?", ["Geri dönüşüm", "Çöpe atma", "Üretim", "Tüketim"], 0],
-            ["Fen Bilimleri", "Elektrik ampulünün icadı, insanlık tarihinde geceyi gündüze çeviren en büyük buluşlardan biri olmuştur. Uzun denemeler sonucunda ampulü icat etmeyi başaran bilim insanı kimdir?", ["Graham Bell", "Thomas Edison", "Newton", "Einstein"], 1],
-            ["Fen Bilimleri", "Mıknatısları incelediğimizde genellikle uç kısımlarının daha güçlü çektiğini fark ederiz. Üzerinde genellikle N ve S harfleriyle gösterilen, mıknatısın toplam kaç tane kutbu vardır?", ["1", "4", "2 (Kuzey ve Güney)", "3"], 2],
-            ["Fen Bilimleri", "Maddeleri suya attığımızda bazıları batarken bazıları yüzeyde kalır. Suyun üzerinde kalabilme durumu maddenin cinsiyle ilgilidir. Aşağıdaki maddelerden hangisini suya atarsak batmadan yüzer?", ["Taş", "Demir Para", "Cam", "Tahta"], 3],
-            ["Fen Bilimleri", "Dünyamız, Güneş etrafında dolanırken yörüngesinde hafif eğik bir şekilde ilerler. Dünyanın bu dolanma hareketi sonucunda, yıl içinde sıcaklıkların değiştiği hangi doğa olayı meydana gelir?", ["Mevsimler", "Gece", "Gündüz", "Saat"], 0],
-            ["Fen Bilimleri", "Doğada bulunan kayaçların bazıları içerdikleri mineraller sayesinde çok değerlidir ve çıkarılıp işlenmesi ülkelere para kazandırır. Altın, gümüş, demir gibi ekonomik değeri yüksek olan bu kayaçlara ne ad verilir?", ["Toprak", "Maden", "Kum", "Çakıl"], 1],
-            ["Fen Bilimleri", "Kurduğumuz basit elektrik devresinde pilin ürettiği enerjinin ampule kadar ulaşabilmesi için bir yola ihtiyaç vardır. Elektrik enerjisini taşıyan bu iletken devre elemanına ne ad verilir?", ["Anahtar", "Duy", "Kablo (İletken Tel)", "Pil yatağı"], 2],
-
-            // SOSYAL BİLGİLER (76-90)
-            ["Sosyal Bilgiler", "Ali amca bankada hesap açtırmak istediğinde görevli ondan devlete kayıtlı olduğunu kanıtlayan resmi bir belge göstermesini istedi. Her Türk vatandaşının sahip olduğu, üzerinde T.C. kimlik numarası bulunan bu belge hangisidir?", ["Sürücü Belgesi", "Öğrenci Belgesi", "Banka Kartı", "Nüfus Cüzdanı (Kimlik)"], 3],
-            ["Sosyal Bilgiler", "İzcilik kampına katılan Ali ve arkadaşları ormanda doğa yürüyüşü yaparken yönlerini kaybettiler. Yönlerini kesin olarak bulup kampa dönebilmeleri için yanlarında hangi aletin bulunması en faydalı olurdu?", ["Pusula", "Termometre", "Saat", "Metre"], 0],
-            ["Sosyal Bilgiler", "Öğretmenimiz, mahallemizdeki okulu ve parkı gösterebilmemiz için bizden mahallemizin kuşbakışı görünümünü, cetvel kullanmadan kaba taslak çizmemizi istedi. Ölçeksiz yapılan bu kaba taslak çizimlere ne denir?", ["Harita", "Kroki", "Resim", "Plan"], 1],
-            ["Sosyal Bilgiler", "Yön bulmak için kullandığımız pusulanın içinde serbestçe dönebilen manyetik bir ibre bulunur. Bu ibrenin renkli (genellikle kırmızı) olan ucu her zaman hangi yönü işaret eder?", ["Güney", "Doğu", "Kuzey", "Batı"], 2],
-            ["Sosyal Bilgiler", "İnsanların yaşamlarını devam ettirebilmeleri için karşılanması zorunlu olan eksikliklere ihtiyaç denir. Karşılanmadığında hayatımızı tehlikeye atacak olan (beslenme, barınma gibi) durumlara ne ad verilir?", ["İstek", "Lüks", "Hediye", "İhtiyaç"], 3],
-            ["Sosyal Bilgiler", "Bilim ve teknoloji tarihinde daha önce kimsenin bilmediği, yepyeni bir ürün veya alet ortaya koyan, bulan zeki insanlara (örneğin telefonu bulan Graham Bell gibi) ne isim verilir?", ["Mucit", "Tüketici", "Memur", "Müşteri"], 0],
-            ["Sosyal Bilgiler", "Ailemizin bir aylık süre içindeki kazandığı parayı (gelir) ve yapacağı harcamaları (gider) dengede tutabilmek için hazırladığımız parasal plana ne ad verilmektedir?", ["Fatura", "Bütçe", "Fiş", "Katalog"], 1],
-            ["Sosyal Bilgiler", "Milli Mücadele, yurdumuzun düşman işgalinden kurtarılması için verilen büyük bir savaştır. Mustafa Kemal Atatürk'ün İstanbul'dan Bandırma Vapuru ile yola çıkarak Milli Mücadeleyi başlattığı o tarihi olay nedir?", ["Cumhuriyetin ilanı", "Meclisin açılması", "Atatürk'ün Samsun'a çıkışı", "Lozan Antlaşması"], 2],
-            ["Sosyal Bilgiler", "Bilinçli bir tüketici olarak marketten veya mağazadan alışveriş yaptıktan sonra, aldığımız üründe bir sorun çıkarsa hakkımızı arayabilmek için kasadan mutlaka ne istemeliyiz?", ["Poşet", "Bozuk para", "Broşür", "Fiş veya Fatura"], 3],
-            ["Sosyal Bilgiler", "Eğer ormanda kaybolursak ve yanımızda pusula yoksa doğadaki işaretlerden yararlanabiliriz. Ağaç gövdelerinin ve taşların yosun tutmuş olan kısımları güneşi az gördüğü için her zaman hangi yönü gösterir?", ["Kuzey", "Güney", "Doğu", "Batı"], 0],
-            ["Sosyal Bilgiler", "Geçmişten günümüze aile büyüklerimizi, dedelerimizi, ninelerimizi ve onların çocuklarını dallara ayrılmış bir tablo halinde gösteren, aile geçmişimizi yansıtan şemaya ne ad verilir?", ["Kroki", "Soy Ağacı", "Harita", "Takvim"], 1],
-            ["Sosyal Bilgiler", "Doğada kendiliğinden meydana gelen, can ve mal kaybına neden olabilen büyük yıkıcı olaylara doğal afet denir. Yerin altındaki tabakaların kırılmasıyla oluşan sarsıntılara (doğal afete) ne denir?", ["Trafik kazası", "Yangın", "Deprem", "Hırsızlık"], 2],
-            ["Sosyal Bilgiler", "Kurtuluş Savaşı yıllarında halkın temsilcilerini bir araya getirmek ve kararları milletle beraber almak için 23 Nisan 1920'de Türkiye Büyük Millet Meclisi (TBMM) açılmıştır. TBMM hangi şehrimizde açılmıştır?", ["İstanbul", "Samsun", "İzmir", "Ankara"], 3],
-            ["Sosyal Bilgiler", "Devleti yönetecek kişilerin belli bir süre için halkın oylarıyla (seçimle) iş başına geldiği, egemenliğin kayıtsız şartsız millete ait olduğu yönetim biçimine ne ad verilir?", ["Cumhuriyet", "Padişahlık", "Krallık", "İmparatorluk"], 0],
-            ["Sosyal Bilgiler", "Doğadaki canlılar da yönlerini bulurken içgüdülerini kullanırlar. Karıncalar yuvalarını yaparken çıkardıkları toprakları soğuk rüzgarlardan korunmak için yuvanın her zaman hangi yönüne yığarlar?", ["Doğu", "Kuzey", "Güney", "Batı"], 1],
-
-            // İNGİLİZCE (91-105)
-            ["İngilizce", "İngilizce dersinin başında öğretmen sınıfa girdiğinde sınıf başkanı arkadaşlarını uyarmak için 'Stand up, please!' dedi. Öğrencilerin bu komutu duyduktan sonra yapması gereken eylem nedir?", ["Oturmak", "Dinlemek", "Ayağa kalkmak", "Yazı yazmak"], 2],
-            ["İngilizce", "Hastanede çalışan kişiye 'doctor', okulda eğitim gören kişiye 'student' denir. Peki, okulda dersleri anlatan ve eğiten kişi olan 'teacher' kelimesinin Türkçe karşılığı nedir?", ["Öğrenci", "Doktor", "Mühendis", "Öğretmen"], 3],
-            ["İngilizce", "Yemekhanede sevdiği meyveleri anlatan Ayşe, arkadaşına 'I like apples' cümlesini kurdu. Ayşe bu İngilizce cümle ile arkadaşına Türkçede ne söylemek istemiştir?", ["Elma severim", "Elma sevmem", "Elma yiyorum", "Elma alacağım"], 0],
-            ["İngilizce", "Haftanın günlerini İngilizce öğrenirken ilk günden başlarız. Haftanın ilk günü olan 'Pazartesi' gününün İngilizce yazılışı aşağıdakilerden hangisidir?", ["Sunday", "Monday", "Friday", "Tuesday"], 1],
-            ["İngilizce", "İngilizce dersinde öğretmen tahtaya çeşitli kelimeler yazdı ve öğrencilerden renk bildiren kelimeyi bulmalarını istedi. Aşağıdaki kelimelerden hangisi bir rengi ifade eder?", ["Cat", "Dog", "Blue", "Book"], 2],
-            ["İngilizce", "Beden eğitimi dersinde yeteneklerinden bahseden Can, arkadaşlarına 'I can jump high!' dedi. Can'ın cümlesindeki 'jump' kelimesi hangi eylemi anlatmaktadır?", ["Koşmak", "Yüzmek", "Uçmak", "Zıplamak"], 3],
-            ["İngilizce", "Harita üzerinde ülkeleri incelerken üzerinde yaşadığımız güzel vatanımızı İngilizce bir haritada bulmak istedik. Ülkemiz 'Türkiye'nin İngilizcedeki yazılışı aşağıdakilerden hangisidir?", ["Turkey", "Turkish", "City", "Language"], 0],
-            ["İngilizce", "Yurtdışından gelen bir turist size yaklaşıp İngilizce olarak 'Where are you from?' diye bir soru sordu. Sizin nereli olduğunuzu soran bu turiste nasıl cevap verirsiniz?", ["I am ten.", "I am from Turkey.", "My name is Ali.", "I like cats."], 1],
-            ["İngilizce", "Sabah erkenden okula gittiğinizde koridorda nöbetçi öğretmeninize rastladınız. Ona sabahları söylenen güzel bir İngilizce selam vermek isterseniz hangisini söylersiniz?", ["Good evening", "Good night", "Good morning", "Goodbye"], 2],
-            ["İngilizce", "Matematik dersinde sayılarla işlem yaparken öğretmeniniz 'Five plus five is ten' dedi. İki elinizdeki toplam parmak sayısını da ifade eden 'ten' kelimesinin rakam karşılığı kaçtır?", ["1", "5", "8", "10"], 3],
-            ["İngilizce", "Mağazaya alışverişe gittiğinizde vitrinde kıyafetler, oyuncaklar ve kitaplar gördünüz. Aşağıdaki İngilizce kelimelerden hangisi üzerimize giyebileceğimiz bir kıyafeti ifade eder?", ["Dress", "Car", "Tree", "Bird"], 0],
-            ["İngilizce", "Sınıfın kapısı kapalıyken dışarıdan bir öğrenci geldiğinde öğretmen içerideki öğrencisine 'Open the door, please' der. Öğretmen bu cümle ile öğrencisinden ne yapmasını istemiştir?", ["Pencereyi kapatmasını", "Kapıyı açmasını", "Kitabını açmasını", "Kapıyı kapatmasını"], 1],
-            ["İngilizce", "Meslekleri öğrenirken her mesleğin bir çalışma alanı olduğunu da öğreniriz. Hastaları tedavi eden bir 'Doctor' (Doktor) genellikle İngilizce adı ne olan bir kurumda çalışır?", ["School", "Bank", "Hospital", "Park"], 2],
-            ["İngilizce", "Bir yemeği hiç sevmediğinizi ve yemek istemediğinizi karşınızdakine İngilizce olarak kibarca anlatmak istiyorsunuz. 'Sevmem, hoşlanmam' anlamına gelen ifade aşağıdakilerden hangisidir?", ["I like", "I want", "I know", "I don't like"], 3],
-            ["İngilizce", "Yeni tanıştığınız bir arkadaşınız size İngilizce olarak adınızı sormak için 'What is your name?' dedi. Bu soruya karşılık kendi adınızı söylerken cümleye nasıl başlamalısınız?", ["My name is...", "I am fine.", "I like milk.", "I am reading."], 0],
-
-            // DİN KÜLTÜRÜ (106-120)
-            ["Din Kültürü", "Din Kültürü ve Ahlak Bilgisi dersinde öğretmenimiz, her Müslümanın yerine getirmesi gereken temel ibadetlerden bahsetti. Buna göre, dinimizin temelini oluşturan İslam'ın şartları toplam kaç tanedir?", ["4", "5", "6", "32"], 1],
-            ["Din Kültürü", "Müslümanlar olarak bir işe, yemeğe veya yolculuğa başlarken Allah'ın adını anarak başlarız. 'Esirgeyen ve bağışlayan Allah'ın adıyla' anlamına gelen, işlerimize başlarken söylediğimiz söz hangisidir?", ["Elhamdülillah", "Maşallah", "Bismillah (Besmele)", "İnşallah"], 2],
-            ["Din Kültürü", "İslam'ın şartları, beden ve mal ile yapılan temel ibadetleri kapsarken, imanın şartları kalpten inanmamız gereken esasları içerir. Buna göre aşağıdakilerden hangisi İslam'ın şartlarından biri değildir?", ["Namaz Kılmak", "Oruç Tutmak", "Zekat Vermek", "Meleklere İnanmak"], 3],
-            ["Din Kültürü", "Son peygamberimiz Hz. Muhammed (s.a.v), 571 yılında Arabistan yarımadasında doğmuştur. Mescid-i Haram ve Kabe'nin de içinde bulunduğu, Peygamber efendimizin doğduğu bu mübarek şehir neresidir?", ["Mekke", "Medine", "Kudüs", "İstanbul"], 0],
-            ["Din Kültürü", "Allah (c.c) insanlara doğru yolu göstermek için tarih boyunca peygamberler aracılığıyla ilahi kitaplar göndermiştir. Dinimizin rehberi olan son kutsal kitabımız Kuran-ı Kerim hangi peygambere indirilmiştir?", ["Hz. Musa", "Hz. Muhammed", "Hz. İsa", "Hz. Davut"], 1],
-            ["Din Kültürü", "Yemek yedikten, su içtikten veya güzel bir habere sevindikten sonra Allah'a verdiği nimetler için teşekkür ederiz. Arapçada 'Allah'a şükürler olsun' anlamına gelen bu şükür ifadesi hangisidir?", ["Allahuekber", "Bismillah", "Elhamdülillah", "Sübhanallah"], 2],
-            ["Din Kültürü", "Müslümanlar için on bir ayın sultanı olarak bilinen mübarek Ramazan ayında, tan yerinin ağarmasından güneş batıncaya kadar yeme içmeyi keserek tuttuğumuz ibadetin adı nedir?", ["Hacca gitmek", "Namaz kılmak", "Zekat vermek", "Oruç tutmak"], 3],
-            ["Din Kültürü", "İslam dini yardımlaşma ve dayanışmaya büyük önem verir. Zengin olan Müslümanların yılda bir kez mallarının belli bir miktarını ihtiyaç sahiplerine ve fakirlere vermesine ne ad verilir?", ["Zekat", "Oruç", "Hac", "Namaz"], 0],
-            ["Din Kültürü", "Peygamber Efendimiz Hz. Muhammed (s.a.v), peygamber olmadan önce de toplum içinde yalan söylemeyen, emanetleri koruyan dürüst biriydi. Bu güvenilir özelliğinden dolayı Mekkeliler ona hangi lakabı takmışlardır?", ["El-Fatih", "Muhammedül Emin", "Faruk", "Sıddık"], 1],
-            ["Din Kültürü", "Ergenlik çağına gelmiş, akıl sağlığı yerinde olan her Müslümanın sabah, öğle, ikindi, akşam ve yatsı olmak üzere günde beş vakit yerine getirmesi gereken en temel beden ibadeti hangisidir?", ["Zekat", "Hac", "Namaz", "Oruç"], 2],
-            ["Din Kültürü", "Müslümanlar birbirleriyle karşılaştıklarında karşılıklı olarak iyi dileklerde bulunurlar. 'Barış, esenlik ve Allah'ın koruması senin üzerine olsun' anlamına gelen İslami selamlaşma sözü hangisidir?", ["Görüşmek üzere", "Teşekkür ederim", "Allah'a emanet ol", "Selamün Aleyküm"], 3],
-            ["Din Kültürü", "Maddi durumu iyi olan ve sağlığı yerinde olan Müslümanların, ömürlerinde bir kez ihrama girerek Mekke'deki Kabe'yi ve etrafındaki kutsal yerleri ziyaret ederek yaptıkları büyük ibadetin adı nedir?", ["Hac", "Zekat", "Namaz", "Oruç"], 0],
-            ["Din Kültürü", "Dinimiz, ibadetlerimizi kabul olması için bedenimizin, giysilerimizin ve çevremizin kirlerden arındırılmış olmasını şart koşar. İnsanın içini ve dışını kirden, pislikten arındırmasına dinimizde ne ad verilir?", ["Beslenme", "Temizlik", "Çalışma", "Uyuma"], 1],
-            ["Din Kültürü", "Kuran-ı Kerim 114 sureden oluşmaktadır. Namazların her rekatında mutlaka okuduğumuz, Kuran'ın başlangıcında yer aldığı için 'açılış' anlamına da gelen Kuran'ın ilk suresi hangisidir?", ["İhlas Suresi", "Kevser Suresi", "Fatiha Suresi", "Nas Suresi"], 2],
-            ["Din Kültürü", "İslam dinine girmenin ilk ve en temel şartı Allah'ın birliğini ve Hz. Muhammed'in onun kulu ve elçisi olduğunu dil ile söyleyip kalp ile onaylamaktır. 'Eşhedü...' diye başlayan bu inanç cümlesinin adı nedir?", ["Ezan", "Kamet", "Sübhaneke", "Kelime-i Şehadet"], 3]
+        // --- TÜM DERSLERİN VERİ TABANI ---
+        const coursesData = [
+            {
+                id: "sinif_5_din",
+                grade: "5. Sınıf",
+                title: "Din Kültürü ve Ahlak Bilgisi",
+                subtitle: "2. Dönem 1. Ortak Yazılı Hazırlık",
+                icon: "fa-book-quran",
+                theme: {
+                    main: "bg-indigo-600", hover: "hover:bg-indigo-700", text: "text-indigo-600", textDark: "text-indigo-900", bgLight: "bg-indigo-50", border: "border-indigo-200", borderStrong: "border-indigo-500", iconBg: "bg-indigo-100"
+                },
+                topics: [
+                    {
+                        title: "1. Tahiyyat Duası",
+                        lesson: ["Tahiyyat duası namazların oturuş (ka'de) bölümlerinde okunur.", "Duânın son kısmında Kelime-i Şehadet (\"Eşhedü en lâ ilâhe illallah...\") yer alır.", "Kelime-i Şehadet, İslam'ın en temel esası olan Tevhid (Allah'ın birliği) ve Peygamberlik inancını ifade eder."],
+                        activity: { type: "true_false", question: "Tahiyyat duası ile ilgili ifadeleri değerlendiriniz.", statements: [{ id: 1, text: "Namazda ayaktayken (kıyam) okunur.", isTrue: false }, { id: 2, text: "Namazın oturuş (ka'de) bölümlerinde okunur.", isTrue: true }, { id: 3, text: "Sonunda Kelime-i Şehadet yer almaktadır.", isTrue: true }] }
+                    },
+                    {
+                        title: "2. Ayet ve Cüz Kavramları",
+                        lesson: ["Ayet: Kur'an-ı Kerim'in surelerini oluşturan, durak işareti (vakıf) ile ayrılmış olan harf, kelime veya cümlelere denir.", "Cüz: Kur'an-ı Kerim'in 20'şer sayfadan oluşan her bir bölümüne verilen isimdir."],
+                        activity: { type: "match", question: "Tanımları doğru kavramlarla eşleştiriniz.", items: [{ id: 1, text: "Duraklarla ayrılmış kelime/cümlelerdir.", matchId: "ayet" }, { id: 2, text: "Kur'an'ın 20 sayfalık bölümleridir.", matchId: "cuz" }], dropdownOptions: [{ id: "ayet", label: "Ayet" }, { id: "cuz", label: "Cüz" }] }
+                    },
+                    {
+                        title: "3. Sure ve Cüz Sayısı",
+                        lesson: ["Kur'an-ı Kerim'de toplam 114 Sure bulunmaktadır.", "Kur'an-ı Kerim'de toplam 30 Cüz bulunmaktadır."],
+                        activity: { type: "multi_select", question: "Doğru sayısal bilgileri seçiniz.", options: [{ id: 1, text: "30 Cüz vardır.", isCorrect: true }, { id: 2, text: "100 Sure vardır.", isCorrect: false }, { id: 3, text: "114 Sure bulunmaktadır.", isCorrect: true }] }
+                    },
+                    {
+                        title: "4. Kur'an'ın Öğütlerine Uyan İnsan",
+                        lesson: ["Kendisine Karşı: Dürüst olur, aklını kullanır, sağlığını korur.", "Çevresine Karşı: İnsanlara saygılı olur, yalan söylemez, yardımlaşır.", "Varlıklara Karşı: Doğayı korur, hayvanlara merhamet eder, israf etmez."],
+                        activity: { type: "match", question: "Davranışların kiminle ilgili olduğunu eşleştiriniz.", items: [{ id: 1, text: "Zararlı alışkanlıklardan uzak durmak", matchId: "kendi" }, { id: 2, text: "Hayvanlara eziyet etmemek", matchId: "varliklar" }, { id: 3, text: "Komşularla iyi geçinmek", matchId: "cevre" }], dropdownOptions: [{ id: "kendi", label: "Kendisine" }, { id: "cevre", label: "Çevresine" }, { id: "varliklar", label: "Varlıklara" }] }
+                    },
+                    {
+                        title: "5. İyi ve Güzel Davranışlar (Salih Amel)",
+                        lesson: ["Bütün iyi, doğru ve güzel davranışlar Kur'an'da SALİH AMEL olarak adlandırılır.", "Allah'ın rızasını kazanmak amacıyla yapılan, topluma faydalı olan her güzel iş salih ameldir."],
+                        activity: { type: "true_false", question: "Salih Amel kavramını değerlendiriniz.", statements: [{ id: 1, text: "Sadece namaz kılmak salih ameldir.", isTrue: false }, { id: 2, text: "Yerdeki zararlı bir taşı kenara çekmek bile salih amel sayılır.", isTrue: true }, { id: 3, text: "Allah'ın rızasını kazanmak için yapılır.", isTrue: true }] }
+                    },
+                    {
+                        title: "6. Kötülüklerden Sakındırmanın Önemi",
+                        lesson: ["Toplumda güven, barış ve huzur ortamının oluşmasını sağlar.", "Hırsızlık, yalan, iftira gibi kötülüklerin yasaklanmasıyla insanların hakları güvence altına alınır.", "Kötülüklerin azalması sevgi ve kardeşlik bağlarını güçlendirir."],
+                        activity: { type: "multi_select", question: "Kötülüklerin yasaklanması topluma ne sağlar?", options: [{ id: 1, text: "Güven ve barış ortamı oluşur.", isCorrect: true }, { id: 2, text: "Sadece zenginlerin hakları korunur.", isCorrect: false }, { id: 3, text: "İnsanların haklarına saygı duyulur.", isCorrect: true }] }
+                    },
+                    {
+                        title: "7. Kur'an'ın Beş Ana Konusu",
+                        lesson: ["1. İnanç (İman Esasları)", "2. İbadet", "3. Ahlak", "4. Sosyal Hayat (Muamelat)", "5. Kıssalar (Geçmiş Toplumların Hikayeleri)"],
+                        activity: { type: "multi_select", question: "Hangileri Kur'an'ın beş ana konusundandır?", options: [{ id: 1, text: "Ahlak", isCorrect: true }, { id: 2, text: "Coğrafya", isCorrect: false }, { id: 3, text: "İnanç", isCorrect: true }, { id: 4, text: "Kıssalar", isCorrect: true }] }
+                    },
+                    {
+                        title: "8. Kıssa Kavramı ve Amacı",
+                        lesson: ["Kıssa: Geçmişte yaşamış peygamberlerin ve milletlerin hayatından bahsedilen, ibret verici olaylardır.", "Amacı: İnsanların yapılan doğrulardan örnek alması ve hatalardan ibret (ders) çıkarmasıdır."],
+                        activity: { type: "true_false", question: "Kıssalar ile ilgili ifadeleri değerlendiriniz.", statements: [{ id: 1, text: "Kıssalar uydurma masallardır.", isTrue: false }, { id: 2, text: "Kur'an'daki amacı insanlara ders ve ibret vermektir.", isTrue: true }] }
+                    },
+                    {
+                        title: "9. Kur'an'ın Konuları Eşleştirme",
+                        lesson: ["Yalan söylememek, emaneti korumak ➔ AHLAK", "Allah'a ve meleklere iman etmek ➔ İNANÇ", "Komşularla iyi geçinmek, alışveriş kuralları ➔ SOSYAL HAYAT"],
+                        activity: { type: "match", question: "Durumları Kur'an'ın ana konularıyla eşleştiriniz.", items: [{ id: 1, text: "İftira atmamak", matchId: "ahlak" }, { id: 2, text: "Alışveriş kurallarına uymak", matchId: "sosyal" }, { id: 3, text: "Allah'ın varlığına inanmak", matchId: "inanc" }], dropdownOptions: [{ id: "ahlak", label: "Ahlak" }, { id: "sosyal", label: "Sosyal Hayat" }, { id: "inanc", label: "İnanç" }] }
+                    }
+                ]
+            },
+            {
+                id: "sinif_7_din",
+                grade: "7. Sınıf",
+                title: "Peygamberimizin Hayatı",
+                subtitle: "2. Dönem 1. Ortak Yazılı Hazırlık",
+                icon: "fa-hands-holding-child",
+                theme: {
+                    main: "bg-orange-600", hover: "hover:bg-orange-700", text: "text-orange-600", textDark: "text-orange-900", bgLight: "bg-orange-50", border: "border-orange-200", borderStrong: "border-orange-500", iconBg: "bg-orange-100"
+                },
+                topics: [
+                    {
+                        title: "1. Ehl-i Beyt Kavramı",
+                        lesson: ["Ehl-i Beyt, 'ev halkı' demektir. Terim olarak Hz. Muhammed'in (sav) ailesini ifade eder.", "Ehl-i beyt: Peygamber Efendimiz, kızı Hz. Fatıma, damadı Hz. Ali, torunları Hz. Hasan ve Hz. Hüseyin.", "Müslümanlar namazlardaki 'Salli-Barik' dualarında onlara dua ederler."],
+                        activity: { type: "multi_select", question: "Ehl-i Beyt kimlerden oluşmaktadır?", options: [{ id: 1, text: "Hz. Ali", isCorrect: true }, { id: 2, text: "Ebu Cehil", isCorrect: false }, { id: 3, text: "Hz. Fatıma", isCorrect: true }, { id: 4, text: "Hz. Hasan ve Hz. Hüseyin", isCorrect: true }] }
+                    },
+                    {
+                        title: "2. Aile İçi Yardımlaşma",
+                        lesson: ["Peygamberimiz (sav) evde kendi elbisesini diker, koyun sağar ve ailesine yardım ederdi.", "Ev işleri sadece kadının görevi değildir. Aile içinde yardımlaşma olmalı, görev dağılımı yapılmalıdır.", "İşlerin paylaşılması aile içindeki sevgiyi, saygıyı ve huzuru artırır."],
+                        activity: { type: "true_false", question: "Aile hayatı ifadelerini değerlendiriniz.", statements: [{ id: 1, text: "Ev işleri sadece kadınların görevidir.", isTrue: false }, { id: 2, text: "Peygamberimiz kendi söküğünü dikerek ailesine yardım etmiştir.", isTrue: true }, { id: 3, text: "İş bölümü yapmak aile içi huzuru artırır.", isTrue: true }] }
+                    },
+                    {
+                        title: "3. Sıla-i Rahim (Akraba İlişkileri)",
+                        lesson: ["Sıla-i rahim; akrabaları ziyaret etmek, onlarla iletişimi sürdürmek ve yardımlaşmak demektir.", "Asıl sıla-i rahim, sadece ziyarete gelene gitmek değil; ilişkiyi kesen akrabayı da ziyaret etmektir.", "Akrabalık bağlarını koparmak dinimizde günah sayılmıştır."],
+                        activity: { type: "true_false", question: "Sıla-i Rahim hakkında bilgileri değerlendiriniz.", statements: [{ id: 1, text: "Sadece bizi ziyarete gelen akrabaları ziyaret etmektir.", isTrue: false }, { id: 2, text: "Bize küsen akrabalarla biz de ilişkiyi kesmeliyiz.", isTrue: false }, { id: 3, text: "Asıl sıla-i rahim, bağları koparan akrabaya gidip iyilik yapmaktır.", isTrue: true }] }
+                    },
+                    {
+                        title: "4. Korunması Gereken Temel Haklar",
+                        lesson: ["İslam'a göre 5 temel hak vardır (Zarurat-ı Diniyye):", "1. Canın Korunması (Yaşama hakkı)", "2. Aklın Korunması (Zararlı maddelerin yasaklanması)", "3. Dinin Korunması (İnanç özgürlüğü)", "4. Neslin Korunması (Ailenin korunması)", "5. Malın Korunması (Mülkiyet hakkı, israfın yasaklanması)"],
+                        activity: { type: "match", question: "Yasakları temel haklarla eşleştiriniz.", items: [{ id: 1, text: "Uyuşturucu maddelerin yasaklanması", matchId: "akil" }, { id: 2, text: "Cinayetin yasaklanması", matchId: "can" }, { id: 3, text: "Hırsızlığın yasaklanması", matchId: "mal" }, { id: 4, text: "Aile kurumuna önem verilmesi", matchId: "nesil" }], dropdownOptions: [{ id: "can", label: "Canın Korunması" }, { id: "akil", label: "Aklın Korunması" }, { id: "nesil", label: "Neslin Korunması" }, { id: "mal", label: "Malın Korunması" }] }
+                    },
+                    {
+                        title: "5. Çevre Emaneti ve İsraf",
+                        lesson: ["Peygamberimiz büyük bir nehirde abdest alınsa bile suyun israf edilmemesini tavsiye etmiştir.", "İslam'da çevre, doğa ve hayvanlar bize verilmiş birer 'emanet' olarak görülür.", "Müslüman, doğayı koruyan ve suyu tasarruflu kullanarak gelecek nesillerin hakkına girmeyen kişidir."],
+                        activity: { type: "multi_select", question: "Çevre bilincine göre hangi davranışlar doğrudur?", options: [{ id: 1, text: "Nehirde abdest alırken bile suyu tasarruflu kullanmak.", isCorrect: true }, { id: 2, text: "Çöpleri doğaya atmak.", isCorrect: false }, { id: 3, text: "Doğal kaynakları gelecek nesillerin hakkı olduğunu bilerek tüketmek.", isCorrect: true }] }
+                    }
+                ]
+            },
+            {
+                id: "sinif_7_tdb",
+                grade: "7. Sınıf",
+                title: "Temel Dini Bilgiler",
+                subtitle: "2. Dönem 1. Ortak Yazılı Hazırlık",
+                icon: "fa-mosque",
+                theme: {
+                    main: "bg-emerald-600", hover: "hover:bg-emerald-700", text: "text-emerald-600", textDark: "text-emerald-900", bgLight: "bg-emerald-50", border: "border-emerald-200", borderStrong: "border-emerald-500", iconBg: "bg-emerald-100"
+                },
+                topics: [
+                    {
+                        title: "1. Namazdaki Tesbihat ve Dualar",
+                        lesson: ["Namaza başlarken: 'Allahu Ekber'", "Rükudayken 3 kez: 'Sübhâne Rabbiye'l-Azîm'", "Rükudan doğrulurken: 'Semi'allahu limen hamideh'", "Ayaktayken: 'Rabbenâ leke'l-hamd'", "Secdedeyken 3 kez: 'Sübhâne Rabbiye'l-A'lâ'", "Selam verirken: 'Esselâmü aleyküm ve rahmetullâh'"],
+                        activity: { type: "match", question: "Hareketleri okunan dualarla eşleştiriniz.", items: [{ id: 1, text: "Rükudayken (3 kez)", matchId: "azim" }, { id: 2, text: "Secdedeyken (3 kez)", matchId: "ala" }, { id: 3, text: "Selam verirken", matchId: "selam" }], dropdownOptions: [{ id: "ala", label: "Sübhâne Rabbiye'l-A'lâ" }, { id: "azim", label: "Sübhâne Rabbiye'l-Azîm" }, { id: "selam", label: "Esselâmü aleyküm..." }] }
+                    },
+                    {
+                        title: "2. Salli ve Barik Duaları",
+                        lesson: ["Salli ve Barik duaları, namazlarda son oturuşta okunur.", "Anlamları: Peygamber Efendimize (sav) ve ailesine, tıpkı Hz. İbrahim ve ailesine edildiği gibi rahmet, selam ve bereket edilmesi için Allah'a edilen dualardır."],
+                        activity: { type: "true_false", question: "Salli ve Barik duaları ile ilgili ifadeleri değerlendiriniz.", statements: [{ id: 1, text: "Namazda ayaktayken okunur.", isTrue: false }, { id: 2, text: "Hz. Muhammed (sav) ve ailesine dua edilir.", isTrue: true }, { id: 3, text: "Dualarda Hz. İbrahim peygamberin de ismi geçer.", isTrue: true }] }
+                    },
+                    {
+                        title: "3. Rabbena Duaları",
+                        lesson: ["Rabbena duaları, namazların son oturuşunda okunur.", "Rabbenâ âtinâ: 'Rabbimiz! Bize dünyada da ahirette de iyilik/güzellik ver ve bizi cehennem azabından koru.'", "Rabbenâğfirlî: 'Rabbimiz! Hesap kurulacağı gün beni, annemi, babamı ve inananları bağışla.'"],
+                        activity: { type: "multi_select", question: "Rabbena dualarında Allah'tan neler istenir?", options: [{ id: 1, text: "Dünyada ve ahirette iyilik", isCorrect: true }, { id: 2, text: "Sadece zenginlik", isCorrect: false }, { id: 3, text: "Anne, baba ve müminlerin bağışlanması", isCorrect: true }] }
+                    },
+                    {
+                        title: "4. Tilavet Secdesi",
+                        lesson: ["Kur'an'da bulunan belirli 'secde ayetleri' okunduğunda veya dinlendiğinde yapılması gereken secdedir.", "Kur'an'da toplam 14 tane secde ayeti vardır.", "Yapılışı: Abdestli olarak kıbleye dönülür, doğrudan secdeye gidilir (3 kez Sübhâne Rabbiye'l-A'lâ) ve ayağa kalkılır."],
+                        activity: { type: "true_false", question: "Tilavet Secdesi hakkında bilgileri değerlendiriniz.", statements: [{ id: 1, text: "Kur'an'da 14 tane tilavet secdesi ayeti vardır.", isTrue: true }, { id: 2, text: "Tilavet secdesi için rükuya gitmek şarttır.", isTrue: false }, { id: 3, text: "Okuyan veya dinleyen kişinin yapması gerekir.", isTrue: true }] }
+                    },
+                    {
+                        title: "5. Namazı Bozan Durumlar",
+                        lesson: ["Namazı bozan durumlar:", "1. Sesli gülmek", "2. Dışarıdan bir şey yemek/içmek", "3. Göğsünü kıbleden başka yöne çevirmek", "4. Namazda dünya kelamı konuşmak", "5. Abdestin bozulması"],
+                        activity: { type: "multi_select", question: "Hangileri namazı bozan durumlardandır?", options: [{ id: 1, text: "Ağzına bir şey atıp yemek", isCorrect: true }, { id: 2, text: "Sessizce sure okumak", isCorrect: false }, { id: 3, text: "Göğsünü kıbleden çevirmek", isCorrect: true }, { id: 4, text: "Sesli bir şekilde gülmek", isCorrect: true }] }
+                    },
+                    {
+                        title: "6. Günlük Namazların Rekatları",
+                        lesson: ["Sabah Namazı: Toplam 4 Rekat", "Öğle Namazı: Toplam 10 Rekat", "İkindi Namazı: Toplam 8 Rekat", "Akşam Namazı: Toplam 5 Rekat", "Yatsı Namazı: Toplam 13 Rekat"],
+                        activity: { type: "match", question: "Namazları rekat sayılarıyla eşleştiriniz.", items: [{ id: 1, text: "Sabah Namazı", matchId: "4" }, { id: 2, text: "Öğle Namazı", matchId: "10" }, { id: 3, text: "Akşam Namazı", matchId: "5" }, { id: 4, text: "Yatsı Namazı", matchId: "13" }], dropdownOptions: [{ id: "4", label: "4 Rekat" }, { id: "5", label: "5 Rekat" }, { id: "10", label: "10 Rekat" }, { id: "13", label: "13 Rekat" }] }
+                    }
+                ]
+            },
+            {
+                id: "sinif_8_din",
+                grade: "8. Sınıf",
+                title: "Peygamberimizin Hayatı",
+                subtitle: "Hz. Muhammed'in Örnekliği",
+                icon: "fa-star-and-crescent",
+                theme: {
+                    main: "bg-teal-600", hover: "hover:bg-teal-700", text: "text-teal-600", textDark: "text-teal-900", bgLight: "bg-teal-50", border: "border-teal-200", borderStrong: "border-teal-500", iconBg: "bg-teal-100"
+                },
+                topics: [
+                    {
+                        title: "1. Peygamberimizin Adalet İlkeleri",
+                        lesson: ["İnsanlar arasında makam/zenginlik ayrımı yapmamak.", "Suçun şahsiliği ilkesine uymak (Herkes kendi suçundan sorumludur).", "Karar verirken söylentilere değil, delillere dayanmak.", "Suçlu kim olursa olsun adam kayırmamak."],
+                        activity: { type: "multi_select", question: "Peygamberimizin adalet ilkelerinden olanları seçiniz.", options: [{ id: 1, text: "Ayrım yapmamak", isCorrect: true }, { id: 2, text: "Kararları dedikodulara göre vermek", isCorrect: false }, { id: 3, text: "Suçun şahsiliğine uymak", isCorrect: true }, { id: 4, text: "Delillere dayanmak", isCorrect: true }] }
+                    },
+                    {
+                        title: "2. Kul Hakkının Önemi",
+                        lesson: ["Peygamberimiz kul hakkı yemenin çok büyük bir günah olduğunu vurgulamıştır.", "Şehitlik mertebesindeki kişinin bile kul hakkı borcu silinmez.", "İşçinin hakkı 'alın teri kurumadan' verilmelidir.", "Vefatından önce ashabıyla helalleşmiştir."],
+                        activity: { type: "true_false", question: "Kul hakkı ifadelerini değerlendiriniz.", statements: [{ id: 1, text: "Şehit olanın kul hakkı borcu silinir.", isTrue: false }, { id: 2, text: "İşçinin ücreti alın teri kurumadan verilmelidir.", isTrue: true }, { id: 3, text: "Peygamberimiz vefatından önce helalleşmiştir.", isTrue: true }] }
+                    },
+                    {
+                        title: "3. Yöneticilerde Bulunması Gereken Özellikler",
+                        lesson: ["Herkese eşit ve adil davranmak.", "Görevleri 'ehline' (liyakatli kişilere) vermek.", "Kararları istişare (danışma) yoluyla almak.", "Halkına karşı merhametli olmak ve dürüst davranmak."],
+                        activity: { type: "multi_select", question: "Bir yöneticide hangi özellikler bulunmalıdır?", options: [{ id: 1, text: "Görevleri sadece akrabalarına vermek", isCorrect: false }, { id: 2, text: "Emaneti ehline vermek", isCorrect: true }, { id: 3, text: "Merhametli ve şefkatli olmak", isCorrect: true }, { id: 4, text: "Dürüst ve adil olmak", isCorrect: true }] }
+                    },
+                    {
+                        title: "4. Mescid-i Nebevi'nin İşlevleri",
+                        lesson: ["İbadet Merkezi: Namazların kılındığı mekandır.", "Eğitim Merkezi: 'Suffe' bölümünde ilim öğrenilen okuldur.", "Yönetim Merkezi: Devlet işlerinin görüşüldüğü yerdir.", "Adalet Sarayı: Anlaşmazlıkların çözüldüğü mahkemedir.", "Sosyal Merkez: Fakirlerin barındığı kurumdur."],
+                        activity: { type: "match", question: "Mescid-i Nebevi'nin işlevlerini eşleştiriniz.", items: [{ id: 1, text: "Suffe'de öğrencilerin eğitim görmesi", matchId: "egitim" }, { id: 2, text: "Anlaşmazlıkların çözülmesi", matchId: "adalet" }, { id: 3, text: "Yabancı elçilerin ağırlanması", matchId: "yonetim" }], dropdownOptions: [{ id: "egitim", label: "Eğitim Merkezi" }, { id: "adalet", label: "Adalet Sarayı" }, { id: "yonetim", label: "Yönetim Merkezi" }] }
+                    },
+                    {
+                        title: "5. Emeğin ve Helal Kazancın Değeri",
+                        lesson: ["'Hiç kimse elinin emeğiyle kazandığından daha hayırlı bir yemek yememiştir.'", "İslam'da alın teri, dürüstçe çalışmak ve helal kazanç çok değerlidir.", "Tembellik ve haksız kazanç yolları kınanır."],
+                        activity: { type: "multi_select", question: "Helal kazanç ile ilgili doğru sonuçları işaretleyiniz.", options: [{ id: 1, text: "Kendi elinin emeğiyle geçinmeye çalışılmalıdır.", isCorrect: true }, { id: 2, text: "Çalışmadan yaşamak daha iyidir.", isCorrect: false }, { id: 3, text: "Tembellik dinimizce kınanmıştır.", isCorrect: true }] }
+                    },
+                    {
+                        title: "6. Tabiatın Korunması",
+                        lesson: ["Çöpleri doğaya atmamak ve atıkları geri dönüşüme atmak.", "Ağaç dikmek ve suyu/elektriği israf etmemek.", "Sokak hayvanlarının yaşam haklarına saygı duymak.", "Plastik poşet yerine bez çanta kullanmak."],
+                        activity: { type: "true_false", question: "Çevreyi korumakla ilgili davranışları değerlendiriniz.", statements: [{ id: 1, text: "Atık pilleri geri dönüşüme atmalıyız.", isTrue: true }, { id: 2, text: "Sokak hayvanları için kapıya su bırakmalıyız.", isTrue: true }, { id: 3, text: "Ormanlık alanlarda serbestçe ateş yakabiliriz.", isTrue: false }] }
+                    }
+                ]
+            }
         ];
 
-        // App State
-        let currentQuestionIndex = 0;
-        let userAnswers = new Array(quizData.length).fill(null);
-        let answeredCount = 0;
-
-        // Subject Colors Map
-        const subjectColors = {
-            "Türkçe": "from-rose-400 to-red-500",
-            "Matematik": "from-blue-400 to-indigo-500",
-            "Fen Bilimleri": "from-emerald-400 to-green-500",
-            "Sosyal Bilgiler": "from-orange-400 to-amber-500",
-            "İngilizce": "from-purple-400 to-violet-500",
-            "Din Kültürü": "from-teal-400 to-cyan-500"
-        };
-        const subjectBadgeColors = {
-            "Türkçe": "bg-rose-500",
-            "Matematik": "bg-blue-500",
-            "Fen Bilimleri": "bg-emerald-500",
-            "Sosyal Bilgiler": "bg-orange-500",
-            "İngilizce": "bg-purple-500",
-            "Din Kültürü": "bg-teal-500"
+        // --- DEVLET YÖNETİMİ (STATE) ---
+        let state = {
+            currentCourseId: null, // null = Anasayfa
+            currentTopicIdx: 0,
+            viewMode: 'lesson',
+            completedActivities: {}, // Örn: { "sinif_5_din": { 0: true, 1: true } }
+            sidebarOpen: false,
+            // Aktivite durumları
+            actSelected: [], actAnswers: {}, actSelections: {}, actIsSubmitted: false, actFeedback: null
         };
 
-        const startScreen = document.getElementById('start-screen');
-        const quizScreen = document.getElementById('quiz-screen');
-        const resultScreen = document.getElementById('result-screen');
-        const headerBanner = document.getElementById('header-banner');
-        
-        function startQuiz() {
-            startScreen.classList.add('hidden');
-            quizScreen.classList.remove('hidden');
-            loadQuestion(0);
+        // İlerleme verilerini başlat
+        coursesData.forEach(c => {
+            if (!state.completedActivities[c.id]) state.completedActivities[c.id] = {};
+        });
+
+        // --- RENDER FONKSİYONLARI ---
+        function init() {
+            renderApp();
         }
 
-        function loadQuestion(index) {
-            currentQuestionIndex = index;
-            const qData = quizData[index];
-            const subject = qData[0];
-            const questionText = qData[1];
-            const options = qData[2];
+        function renderApp() {
+            const root = document.getElementById('app-root');
+            if (state.currentCourseId === null) {
+                root.innerHTML = renderDashboard();
+            } else {
+                root.innerHTML = renderCourseView();
+                bindCourseEvents();
+            }
+        }
 
-            // Update UI Colors
-            headerBanner.className = `h-4 w-full bg-gradient-to-r ${subjectColors[subject]} transition-colors duration-500`;
-            const badge = document.getElementById('subject-badge');
-            badge.textContent = subject;
-            badge.className = `px-4 py-1.5 rounded-full text-sm font-bold text-white shadow-sm transition-colors duration-300 ${subjectBadgeColors[subject]}`;
-
-            // Update Progress
-            document.getElementById('current-q-num').textContent = index + 1;
-            document.getElementById('progress-bar').style.width = `${((index + 1) / quizData.length) * 100}%`;
-
-            // Update Text
-            document.getElementById('question-text').textContent = questionText;
-
-            // Render Options
-            const optionsContainer = document.getElementById('options-container');
-            optionsContainer.innerHTML = '';
+        // --- 1. ANA SAYFA (DASHBOARD) ---
+        function renderDashboard() {
+            let cardsHtml = '';
             
-            const letters = ['A', 'B', 'C', 'D'];
-            options.forEach((optText, i) => {
-                const btn = document.createElement('button');
-                const isSelected = userAnswers[index] === i;
+            coursesData.forEach(course => {
+                const totalTopics = course.topics.length;
+                const completed = Object.keys(state.completedActivities[course.id]).length;
+                const progress = Math.round((completed / totalTopics) * 100) || 0;
                 
-                btn.className = `option-btn w-full text-left p-4 rounded-2xl border-2 flex items-center gap-4 bg-white ${isSelected ? 'selected' : 'border-slate-100 hover:border-blue-200'}`;
-                btn.onclick = () => selectAnswer(i);
-                
-                btn.innerHTML = `
-                    <div class="w-10 h-10 rounded-full flex items-center justify-center font-bold shrink-0 ${isSelected ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-500'} transition-colors">
-                        ${letters[i]}
+                cardsHtml += `
+                    <div onclick="openCourse('${course.id}')" class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden cursor-pointer transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl group">
+                        <div class="h-32 ${course.theme.main} flex items-center justify-center relative overflow-hidden">
+                            <i class="fa-solid ${course.icon} text-white/20 text-6xl absolute -right-4 -bottom-4 transform group-hover:scale-110 transition-transform"></i>
+                            <div class="w-16 h-16 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center shadow-inner z-10">
+                                <i class="fa-solid ${course.icon} text-white text-3xl"></i>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">${course.grade}</div>
+                            <h3 class="text-xl font-bold text-slate-800 mb-1 group-hover:${course.theme.text} transition-colors">${course.title}</h3>
+                            <p class="text-slate-500 text-sm h-10 line-clamp-2">${course.subtitle}</p>
+                            
+                            <div class="mt-6">
+                                <div class="flex justify-between text-xs font-bold text-slate-500 mb-2">
+                                    <span>İlerleme</span>
+                                    <span>%${progress}</span>
+                                </div>
+                                <div class="w-full bg-slate-100 rounded-full h-2.5 shadow-inner">
+                                    <div class="${course.theme.main} h-2.5 rounded-full transition-all duration-1000" style="width: ${progress}%"></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="font-semibold text-slate-700 text-base sm:text-lg select-none">${optText}</div>
                 `;
-                optionsContainer.appendChild(btn);
             });
 
-            // Button visibility
-            document.getElementById('prev-btn').classList.toggle('hidden', index === 0);
+            return `
+                <header class="bg-slate-900 text-white p-6 shadow-md z-20">
+                    <div class="max-w-6xl mx-auto flex items-center gap-4">
+                        <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center shadow-lg transform rotate-3">
+                            <i class="fa-solid fa-graduation-cap text-2xl text-white transform -rotate-3"></i>
+                        </div>
+                        <div>
+                            <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">Eğitim Portalı</h1>
+                            <p class="text-slate-400 text-sm font-medium">İnteraktif Konu Özetleri ve Etkinlikler</p>
+                        </div>
+                    </div>
+                </header>
+                <main class="flex-1 overflow-y-auto p-6 md:p-10 bg-slate-50">
+                    <div class="max-w-6xl mx-auto animate-fadeIn">
+                        <h2 class="text-xl font-bold text-slate-700 mb-6 flex items-center gap-2">
+                            <i class="fa-solid fa-layer-group text-slate-400"></i> Mevcut Dersler
+                        </h2>
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                            ${cardsHtml}
+                        </div>
+                    </div>
+                </main>
+            `;
+        }
+
+        window.openCourse = (courseId) => {
+            state.currentCourseId = courseId;
+            state.currentTopicIdx = 0;
+            state.viewMode = 'lesson';
+            resetActivityState();
+            renderApp();
+        };
+
+        window.goHome = () => {
+            state.currentCourseId = null;
+            renderApp();
+        };
+
+        // --- 2. DERS İÇERİĞİ GÖRÜNÜMÜ ---
+        function renderCourseView() {
+            const course = coursesData.find(c => c.id === state.currentCourseId);
+            const topic = course.topics[state.currentTopicIdx];
             
-            const nextBtn = document.getElementById('next-btn');
-            if (index === quizData.length - 1) {
-                nextBtn.innerHTML = 'Sınavı Bitir 🏁';
-                nextBtn.classList.replace('bg-slate-800', 'bg-green-600');
-                nextBtn.classList.replace('hover:bg-slate-700', 'hover:bg-green-500');
-            } else {
-                nextBtn.innerHTML = 'Sonraki &rarr;';
-                nextBtn.classList.replace('bg-green-600', 'bg-slate-800');
-                nextBtn.classList.replace('hover:bg-green-500', 'hover:bg-slate-700');
-            }
+            const totalTopics = course.topics.length;
+            const completed = Object.keys(state.completedActivities[course.id]).length;
+            const progress = Math.round((completed / totalTopics) * 100) || 0;
+
+            const isCompleted = state.completedActivities[course.id][state.currentTopicIdx];
+
+            return `
+                <!-- HEADER -->
+                <header class="${course.theme.main} text-white p-4 shadow-md z-20 flex justify-between items-center shrink-0">
+                    <div class="flex items-center gap-3">
+                        <button onclick="toggleSidebar()" class="lg:hidden p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors">
+                            <i class="fa-solid fa-bars text-xl"></i>
+                        </button>
+                        <button onclick="goHome()" class="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors flex items-center gap-2 font-bold px-4 hidden sm:flex">
+                            <i class="fa-solid fa-arrow-left"></i> Portala Dön
+                        </button>
+                        <button onclick="goHome()" class="p-2 bg-white/10 rounded-lg hover:bg-white/20 transition-colors sm:hidden">
+                            <i class="fa-solid fa-house"></i>
+                        </button>
+                        <div class="h-8 w-px bg-white/20 mx-2 hidden sm:block"></div>
+                        <div>
+                            <h1 class="text-lg md:text-xl font-bold leading-tight">${course.grade} ${course.title}</h1>
+                            <p class="text-white/70 text-xs hidden md:block">${course.subtitle}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 bg-black/10 px-4 py-2 rounded-lg border border-white/10 shadow-inner">
+                        <i class="fa-solid fa-star text-yellow-300 text-xl"></i>
+                        <span class="font-bold hidden sm:inline">İlerleme: %${progress}</span>
+                        <span class="font-bold sm:hidden">%${progress}</span>
+                    </div>
+                </header>
+
+                <div class="flex flex-1 overflow-hidden relative bg-slate-50">
+                    
+                    <!-- SIDEBAR -->
+                    <aside id="sidebar" class="-translate-x-full lg:translate-x-0 absolute lg:relative z-30 w-80 bg-white border-r border-slate-200 h-full transition-transform duration-300 ease-in-out shadow-2xl lg:shadow-none overflow-y-auto shrink-0 flex flex-col">
+                        <div class="p-4 flex justify-between items-center lg:hidden border-b border-slate-100">
+                            <span class="font-bold text-slate-700">Konular</span>
+                            <button onclick="toggleSidebar()"><i class="fa-solid fa-xmark text-xl text-slate-400"></i></button>
+                        </div>
+                        <div class="p-4 flex-1">
+                            <h2 class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 hidden lg:block">Ders İçeriği</h2>
+                            <nav class="space-y-1" id="sidebar-nav">
+                                ${renderSidebarNav(course)}
+                            </nav>
+                        </div>
+                    </aside>
+
+                    <!-- MAIN CONTENT AREA -->
+                    <main class="flex-1 overflow-y-auto p-4 md:p-8 flex flex-col w-full ${course.theme.bgLight} relative">
+                        <div id="sidebar-overlay" onclick="toggleSidebar()" class="hidden fixed inset-0 bg-slate-900/50 z-20 lg:hidden backdrop-blur-sm transition-opacity"></div>
+
+                        <div class="max-w-4xl mx-auto w-full flex-1 flex flex-col z-10">
+                            
+                            <div class="mb-6 animate-fadeIn">
+                                <h2 class="text-2xl md:text-3xl font-extrabold text-slate-800 border-b-2 ${course.theme.border} pb-4">
+                                    ${topic.title.replace(/^\d+\.\s*/, '')}
+                                </h2>
+                            </div>
+
+                            <!-- Tabs -->
+                            <div class="flex bg-white/60 p-1 rounded-xl mb-8 shrink-0 shadow-inner border border-slate-200/50">
+                                <button onclick="setView('lesson')" class="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-bold transition-all ${state.viewMode === 'lesson' ? 'bg-white ' + course.theme.text + ' shadow-sm border border-slate-200 transform scale-[1.01]' : 'text-slate-500 hover:bg-white/50 border border-transparent'}">
+                                    <i class="fa-solid fa-book-open"></i> Konu Özeti
+                                </button>
+                                <button onclick="setView('activity')" class="flex-1 flex items-center justify-center gap-2 py-3 rounded-lg font-bold transition-all relative ${state.viewMode === 'activity' ? 'bg-white ' + course.theme.text + ' shadow-sm border border-slate-200 transform scale-[1.01]' : 'text-slate-500 hover:bg-white/50 border border-transparent'}">
+                                    <i class="fa-solid fa-puzzle-piece"></i> Etkinlikle Pekiştir
+                                    <i class="fa-solid fa-circle-check text-green-500 absolute right-4 ${isCompleted ? '' : 'hidden'}"></i>
+                                </button>
+                            </div>
+
+                            <!-- View Content -->
+                            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 md:p-8 flex-1 mb-8 relative overflow-hidden">
+                                <!-- Dekoratif arka plan simgesi -->
+                                <i class="fa-solid ${course.icon} absolute -bottom-10 -right-10 text-9xl text-slate-50 opacity-50 pointer-events-none"></i>
+                                
+                                <div class="relative z-10">
+                                    ${state.viewMode === 'lesson' ? renderLessonHTML(topic, course.theme) : renderActivityHTML(topic.activity, course.theme)}
+                                </div>
+                            </div>
+
+                            <!-- Bottom Navigation -->
+                            <div class="flex justify-between items-center pb-8 mt-auto shrink-0">
+                                <button onclick="prevTopic()" ${state.currentTopicIdx === 0 ? 'disabled' : ''} class="flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-slate-600 bg-white border border-slate-300 hover:bg-slate-50 disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-sm">
+                                    <i class="fa-solid fa-chevron-left"></i> Önceki
+                                </button>
+                                
+                                <span class="${course.theme.text} font-bold hidden md:block tracking-wide bg-white px-4 py-2 rounded-lg border border-slate-200 shadow-sm">
+                                    Konu ${state.currentTopicIdx + 1} / ${course.topics.length}
+                                </span>
+
+                                <button onclick="nextTopic()" ${state.currentTopicIdx === course.topics.length - 1 ? 'disabled' : ''} class="flex items-center gap-2 px-5 py-3 rounded-xl font-bold text-white ${course.theme.main} ${course.theme.hover} disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-md hover:shadow-lg">
+                                    Sonraki <i class="fa-solid fa-chevron-right"></i>
+                                </button>
+                            </div>
+
+                        </div>
+                    </main>
+                </div>
+            `;
         }
 
-        function selectAnswer(optIndex) {
-            userAnswers[currentQuestionIndex] = optIndex;
-            loadQuestion(currentQuestionIndex); // re-render to show selection
+        function renderSidebarNav(course) {
+            let html = '';
+            course.topics.forEach((topic, idx) => {
+                const isActive = state.currentTopicIdx === idx;
+                const isCompleted = state.completedActivities[course.id][idx];
+                
+                const activeClasses = isActive ? `${course.theme.bgLight} ${course.theme.textDark} font-bold border-l-4 ${course.theme.borderStrong} shadow-sm` : 'text-slate-600 hover:bg-slate-50 border-l-4 border-transparent';
+                const iconClasses = isCompleted ? 'bg-green-500 border-green-500 text-white shadow-sm' : 'border-slate-200 text-slate-400 font-bold bg-slate-50';
+                const iconContent = isCompleted ? '<i class="fa-solid fa-check text-xs"></i>' : (idx + 1);
+                
+                const shortTitle = topic.title.replace(/^\d+\.\s*/, '');
+
+                html += `
+                <button onclick="setTopic(${idx})" class="w-full text-left p-3 rounded-r-xl flex items-center gap-3 transition-all ${activeClasses} mb-1">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0 border-2 ${iconClasses}">
+                        ${iconContent}
+                    </div>
+                    <span class="text-sm leading-snug line-clamp-2">${shortTitle}</span>
+                </button>
+                `;
+            });
+            return html;
         }
 
-        function nextQuestion() {
-            if (currentQuestionIndex < quizData.length - 1) {
-                loadQuestion(currentQuestionIndex + 1);
-            } else {
-                finishQuiz();
-            }
+        function renderLessonHTML(topic, theme) {
+            let listHtml = `<div class="font-bold ${theme.textDark} mb-6 flex items-center gap-3 text-xl border-b-2 border-slate-100 pb-3"><i class="fa-solid fa-book-open-reader ${theme.text}"></i> Konu Özeti</div>`;
+
+            topic.lesson.forEach(item => {
+                let formattedItem = item.replace(/^(\d+\.)\s/g, `<span class="font-extrabold ${theme.text} mr-1">$1</span> `);
+                listHtml += `
+                    <li class="flex items-start gap-3 text-slate-700 text-lg mb-4 bg-slate-50/50 p-4 rounded-xl border border-slate-100 shadow-sm transition-transform hover:translate-x-1">
+                        <span class="w-2.5 h-2.5 mt-2.5 rounded-full ${theme.main} shrink-0 shadow-sm opacity-80"></span>
+                        <span class="leading-relaxed">${formattedItem}</span>
+                    </li>`;
+            });
+
+            return `
+                <div class="space-y-4 animate-fadeIn">
+                    <ul class="space-y-3">${listHtml}</ul>
+                    <div class="mt-10 flex justify-end">
+                        <button onclick="setView('activity')" class="${theme.main} ${theme.hover} text-white px-7 py-3 rounded-xl font-bold shadow-md hover:shadow-lg flex items-center gap-2 transition-all transform hover:-translate-y-1">
+                            <i class="fa-solid fa-puzzle-piece text-xl"></i> Etkinliğe Geç
+                        </button>
+                    </div>
+                </div>
+            `;
         }
 
-        function prevQuestion() {
-            if (currentQuestionIndex > 0) {
-                loadQuestion(currentQuestionIndex - 1);
-            }
-        }
+        function renderActivityHTML(act, theme) {
+            let contentHtml = '';
 
-        function quitQuiz() {
-            if(confirm("Sınavdan çıkmak istediğine emin misin? Kaydedilmemiş ilerlemen silinecek.")) {
-                quizScreen.classList.add('hidden');
-                startScreen.classList.remove('hidden');
-                // Sınavı sıfırla
-                userAnswers = new Array(quizData.length).fill(null);
-                currentQuestionIndex = 0;
-                headerBanner.className = 'h-4 w-full bg-gradient-to-r from-blue-400 to-indigo-500 transition-colors duration-500';
-            }
-        }
+            // 1. Çoktan Seçmeli
+            if (act.type === 'multi_select') {
+                let optionsHtml = '';
+                act.options.forEach(opt => {
+                    const isSelected = state.actSelected.includes(opt.id);
+                    let classes = "border-slate-200 hover:border-slate-300 hover:bg-slate-50 bg-white";
+                    let iconClasses = "border-slate-300 bg-slate-50 text-transparent";
+                    let iconHtml = '<i class="fa-solid fa-check text-xs"></i>';
+                    let extraInfo = ""; let textClasses = "text-slate-700";
 
-        function finishQuiz() {
-            quizScreen.classList.add('hidden');
-            resultScreen.classList.remove('hidden');
+                    if (state.actIsSubmitted) {
+                        if (opt.isCorrect) {
+                            classes = "border-green-500 bg-green-50"; textClasses = "text-green-800 font-bold";
+                            if (!isSelected) extraInfo = '<span class="ml-auto text-sm text-green-700 font-bold bg-green-200 px-2 py-1 rounded-md">Doğru cevap buydu!</span>';
+                        } else if (isSelected) {
+                            classes = "border-red-500 bg-red-50"; extraInfo = '<span class="ml-auto text-sm text-red-600 font-bold bg-red-200 px-2 py-1 rounded-md">Yanlış seçim!</span>';
+                        } else {
+                            classes = "border-slate-200 bg-slate-50 opacity-50";
+                        }
+                        if(isSelected) {
+                            iconClasses = opt.isCorrect ? "bg-green-500 border-green-500 text-white" : "bg-red-500 border-red-500 text-white";
+                            iconHtml = opt.isCorrect ? '<i class="fa-solid fa-check text-xs"></i>' : '<i class="fa-solid fa-xmark text-xs"></i>';
+                        }
+                    } else if (isSelected) {
+                        classes = `${theme.borderStrong} ${theme.bgLight} shadow-md transform scale-[1.01]`;
+                        iconClasses = `${theme.main} border-transparent text-white shadow-inner`;
+                    }
+
+                    optionsHtml += `
+                        <div onclick="toggleMultiSelect(${opt.id})" class="p-4 rounded-xl border-2 cursor-pointer transition-all duration-200 flex items-center gap-4 ${classes}">
+                            <div class="w-7 h-7 rounded-lg border-2 flex items-center justify-center transition-colors ${iconClasses}">${iconHtml}</div>
+                            <span class="text-lg ${textClasses}">${opt.text}</span>${extraInfo}
+                        </div>`;
+                });
+
+                const btnDisabled = state.actSelected.length === 0;
+                const actionBtn = state.actIsSubmitted 
+                    ? `<button onclick="resetActivity()" class="px-7 py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl transition-colors shadow-sm"><i class="fa-solid fa-rotate-right mr-2"></i>Tekrar Dene</button>`
+                    : `<button onclick="checkMultiSelect()" ${btnDisabled ? 'disabled' : ''} class="px-7 py-3 ${theme.main} ${theme.hover} text-white font-bold rounded-xl shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed transform ${!btnDisabled && 'hover:-translate-y-1 hover:shadow-lg'}">Kontrol Et</button>`;
+
+                contentHtml = `
+                    <div class="space-y-6 animate-fadeIn">
+                        <div class="flex items-start gap-4 mb-6 ${theme.bgLight} p-4 rounded-xl border ${theme.border}">
+                            <div class="bg-white p-2 rounded-lg shadow-sm ${theme.text}"><i class="fa-solid fa-list-check text-2xl"></i></div>
+                            <h3 class="text-lg font-bold text-slate-800 mt-1">${act.question}</h3>
+                        </div>
+                        <div class="space-y-3">${optionsHtml}</div>
+                        ${renderFeedback()}
+                        <div class="flex gap-4 pt-4">${actionBtn}</div>
+                    </div>`;
+            } 
             
-            answeredCount = userAnswers.filter(ans => ans !== null).length;
-            document.getElementById('answered-count').textContent = `${answeredCount} / ${quizData.length}`;
-            headerBanner.className = `h-4 w-full bg-gradient-to-r from-emerald-400 to-teal-500 transition-colors duration-500`;
-            window.scrollTo(0,0);
+            // 2. Doğru/Yanlış
+            else if (act.type === 'true_false') {
+                let statementsHtml = '';
+                act.statements.forEach(stmt => {
+                    const ans = state.actAnswers[stmt.id];
+                    const isCorrectAnswer = ans === stmt.isTrue;
+                    let rowClasses = "border-slate-200 bg-white hover:border-slate-300 shadow-sm";
+                    
+                    if (state.actIsSubmitted) {
+                        rowClasses = isCorrectAnswer ? "border-green-500 bg-green-50 shadow-none" : "border-red-500 bg-red-50 shadow-none";
+                    }
+
+                    const getBtnClass = (btnType) => {
+                        if (ans === btnType) {
+                            if (state.actIsSubmitted) return stmt.isTrue === btnType ? "bg-green-500 border-green-500 text-white shadow-inner" : "bg-red-500 border-red-500 text-white shadow-inner";
+                            return `${theme.main} border-transparent text-white shadow-inner`;
+                        }
+                        return `border-slate-200 text-slate-400 hover:border-slate-400 hover:${theme.text} bg-slate-50 hover:bg-white`;
+                    };
+
+                    statementsHtml += `
+                        <div class="p-5 rounded-xl border-2 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between transition-all ${rowClasses}">
+                            <span class="text-lg text-slate-700 flex-1 font-medium">${stmt.text}</span>
+                            <div class="flex gap-2 shrink-0 bg-slate-100 p-1 rounded-xl">
+                                <button onclick="setTrueFalse(${stmt.id}, true)" class="px-5 py-2 rounded-lg font-bold border-2 transition-all ${getBtnClass(true)}"><i class="fa-solid fa-check mr-1"></i> D</button>
+                                <button onclick="setTrueFalse(${stmt.id}, false)" class="px-5 py-2 rounded-lg font-bold border-2 transition-all ${getBtnClass(false)}"><i class="fa-solid fa-xmark mr-1"></i> Y</button>
+                            </div>
+                        </div>`;
+                });
+
+                const allAnswered = Object.keys(state.actAnswers).length === act.statements.length;
+                const actionBtn = state.actIsSubmitted 
+                    ? `<button onclick="resetActivity()" class="px-7 py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl transition-colors shadow-sm"><i class="fa-solid fa-rotate-right mr-2"></i>Tekrar Dene</button>`
+                    : `<button onclick="checkTrueFalse()" ${!allAnswered ? 'disabled' : ''} class="px-7 py-3 ${theme.main} ${theme.hover} text-white font-bold rounded-xl shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed transform ${allAnswered && 'hover:-translate-y-1 hover:shadow-lg'}">Kontrol Et</button>`;
+
+                contentHtml = `
+                    <div class="space-y-6 animate-fadeIn">
+                        <div class="flex items-start gap-4 mb-6 ${theme.bgLight} p-4 rounded-xl border ${theme.border}">
+                            <div class="bg-white p-2 rounded-lg shadow-sm ${theme.text}"><i class="fa-solid fa-scale-balanced text-2xl"></i></div>
+                            <h3 class="text-lg font-bold text-slate-800 mt-1">${act.question}</h3>
+                        </div>
+                        <div class="space-y-4">${statementsHtml}</div>
+                        ${renderFeedback()}
+                        <div class="flex gap-4 pt-4">${actionBtn}</div>
+                    </div>`;
+            }
+
+            // 3. Eşleştirme
+            else if (act.type === 'match') {
+                let itemsHtml = '';
+                act.items.forEach(item => {
+                    const sel = state.actSelections[item.id];
+                    const isCorrect = sel === item.matchId;
+                    
+                    let rowClasses = "border-slate-200 bg-white hover:border-slate-300 shadow-sm";
+                    let selectClasses = "border-slate-200 focus:border-slate-400 bg-slate-50 hover:bg-white text-slate-700";
+                    
+                    if (state.actIsSubmitted) {
+                        rowClasses = isCorrect ? "border-green-500 bg-green-50 shadow-none" : "border-red-500 bg-red-50 shadow-none";
+                        selectClasses = isCorrect ? "border-green-500 text-green-800 bg-green-100 font-bold" : "border-red-500 text-red-800 bg-red-100 font-bold";
+                    } else if (sel) {
+                        selectClasses = `${theme.borderStrong} ${theme.bgLight} ${theme.textDark} font-bold`;
+                    }
+
+                    let optionsHtml = `<option value="" disabled ${!sel ? 'selected' : ''}>Kavramı Seçin...</option>`;
+                    act.dropdownOptions.forEach(opt => {
+                        optionsHtml += `<option value="${opt.id}" ${sel === opt.id ? 'selected' : ''}>${opt.label}</option>`;
+                    });
+
+                    itemsHtml += `
+                        <div class="p-5 rounded-xl border-2 flex flex-col lg:flex-row gap-4 lg:items-center justify-between transition-all ${rowClasses}">
+                            <span class="text-lg text-slate-700 flex-1 font-medium"><i class="fa-solid fa-caret-right ${theme.text} opacity-50 mr-2"></i>${item.text}</span>
+                            <div class="relative shrink-0 w-full lg:w-64">
+                                <select onchange="setMatch(${item.id}, this.value)" ${state.actIsSubmitted ? 'disabled' : ''} class="appearance-none w-full p-3 pr-10 rounded-xl border-2 outline-none cursor-pointer transition-all ${selectClasses}">
+                                    ${optionsHtml}
+                                </select>
+                                <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none text-slate-400"><i class="fa-solid fa-chevron-down"></i></div>
+                            </div>
+                        </div>`;
+                });
+
+                const allAnswered = Object.keys(state.actSelections).length === act.items.length;
+                const actionBtn = state.actIsSubmitted 
+                    ? `<button onclick="resetActivity()" class="px-7 py-3 bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold rounded-xl transition-colors shadow-sm"><i class="fa-solid fa-rotate-right mr-2"></i>Tekrar Dene</button>`
+                    : `<button onclick="checkMatch()" ${!allAnswered ? 'disabled' : ''} class="px-7 py-3 ${theme.main} ${theme.hover} text-white font-bold rounded-xl shadow-md transition-all disabled:opacity-50 disabled:cursor-not-allowed transform ${allAnswered && 'hover:-translate-y-1 hover:shadow-lg'}">Kontrol Et</button>`;
+
+                contentHtml = `
+                    <div class="space-y-6 animate-fadeIn">
+                        <div class="flex items-start gap-4 mb-6 ${theme.bgLight} p-4 rounded-xl border ${theme.border}">
+                            <div class="bg-white p-2 rounded-lg shadow-sm ${theme.text}"><i class="fa-solid fa-link text-2xl"></i></div>
+                            <h3 class="text-lg font-bold text-slate-800 mt-1">${act.question}</h3>
+                        </div>
+                        <div class="space-y-4">${itemsHtml}</div>
+                        ${renderFeedback()}
+                        <div class="flex gap-4 pt-4">${actionBtn}</div>
+                    </div>`;
+            }
+
+            return contentHtml;
         }
+
+        function renderFeedback() {
+            if (!state.actFeedback) return '';
+            const isSuccess = state.actFeedback.type === 'success';
+            const bgClass = isSuccess ? 'bg-green-100 text-green-800 border-2 border-green-400' : 'bg-red-100 text-red-800 border-2 border-red-400';
+            const icon = isSuccess ? '<i class="fa-solid fa-circle-check text-3xl"></i>' : '<i class="fa-solid fa-circle-xmark text-3xl"></i>';
+            return `
+                <div class="p-5 rounded-2xl flex items-center gap-4 mt-6 transform animate-fadeIn shadow-sm ${bgClass}">
+                    ${icon} <span class="font-extrabold text-xl tracking-wide">${state.actFeedback.text}</span>
+                </div>`;
+        }
+
+        function bindCourseEvents() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebar-overlay');
+            if(state.sidebarOpen) {
+                sidebar.classList.remove('-translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('-translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        // --- ETKİLEŞİM FONKSİYONLARI ---
+        window.toggleSidebar = () => { state.sidebarOpen = !state.sidebarOpen; renderApp(); };
+        window.setTopic = (idx) => { state.currentTopicIdx = idx; state.viewMode = 'lesson'; state.sidebarOpen = false; resetActivityState(); renderApp(); window.scrollTo(0,0); };
+        window.setView = (mode) => { state.viewMode = mode; renderApp(); };
+        window.nextTopic = () => { const len = coursesData.find(c=>c.id===state.currentCourseId).topics.length; if(state.currentTopicIdx < len-1) setTopic(state.currentTopicIdx+1); };
+        window.prevTopic = () => { if(state.currentTopicIdx > 0) setTopic(state.currentTopicIdx-1); };
+
+        function resetActivityState() {
+            state.actSelected = []; state.actAnswers = {}; state.actSelections = {}; state.actIsSubmitted = false; state.actFeedback = null;
+        }
+        window.resetActivity = () => { resetActivityState(); renderApp(); };
+
+        window.toggleMultiSelect = (id) => {
+            if (state.actIsSubmitted) return;
+            if (state.actSelected.includes(id)) state.actSelected = state.actSelected.filter(i => i !== id);
+            else state.actSelected.push(id);
+            renderApp();
+        };
+
+        window.checkMultiSelect = () => {
+            state.actIsSubmitted = true; let allCorrect = true;
+            const act = coursesData.find(c=>c.id===state.currentCourseId).topics[state.currentTopicIdx].activity;
+            act.options.forEach(opt => {
+                const isSelected = state.actSelected.includes(opt.id);
+                if (opt.isCorrect && !isSelected) allCorrect = false;
+                if (!opt.isCorrect && isSelected) allCorrect = false;
+            });
+            handleResult(allCorrect, 'Tebrikler! Tüm doğruları eksiksiz buldunuz.', 'Bazı seçimleriniz hatalı veya eksik.');
+        };
+
+        window.setTrueFalse = (id, val) => { if (state.actIsSubmitted) return; state.actAnswers[id] = val; renderApp(); };
+
+        window.checkTrueFalse = () => {
+            state.actIsSubmitted = true; let allCorrect = true;
+            const act = coursesData.find(c=>c.id===state.currentCourseId).topics[state.currentTopicIdx].activity;
+            act.statements.forEach(stmt => { if (state.actAnswers[stmt.id] !== stmt.isTrue) allCorrect = false; });
+            handleResult(allCorrect, 'Harika! İfadelere doğru cevap verdiniz.', 'Cevaplarınızda hata var. Kırmızı işaretli olanları inceleyin.');
+        };
+
+        window.setMatch = (id, val) => { if (state.actIsSubmitted) return; state.actSelections[id] = val; renderApp(); };
+
+        window.checkMatch = () => {
+            state.actIsSubmitted = true; let allCorrect = true;
+            const act = coursesData.find(c=>c.id===state.currentCourseId).topics[state.currentTopicIdx].activity;
+            act.items.forEach(item => { if (state.actSelections[item.id] !== item.matchId) allCorrect = false; });
+            handleResult(allCorrect, 'Mükemmel! Tüm eşleştirmeler doğru.', 'Bazı kavramları yanlış eşleştirdiniz.');
+        };
+
+        function handleResult(isSuccess, successMsg, errorMsg) {
+            if (isSuccess) {
+                state.actFeedback = { type: 'success', text: successMsg };
+                state.completedActivities[state.currentCourseId][state.currentTopicIdx] = true;
+            } else {
+                state.actFeedback = { type: 'error', text: errorMsg };
+            }
+            renderApp();
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
